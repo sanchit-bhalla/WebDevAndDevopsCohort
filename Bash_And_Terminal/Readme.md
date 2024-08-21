@@ -11,16 +11,25 @@
 1. `pwd` - Present Working Directory
 2. `cd` - Change Directory
 3. `ls` - Listing files
-    - `ls -l` --> to see details
+    - `ls -l` --> to see details like file permissions, size, owner, last modified timestamp etc
     - `ls -R textFolder`
     - `-t flag` --> last modified
     - We can combine multiple options i.e `ls -lt textFolder`
     - `-a` --> To see hidden files
     - `-R` -->  recursive
+    - `-r` --> reverse - ?
     - To see hidden files recursively(within subdirectories) `ls -lRa textFolder`
+    - `-s` --> size
+    - `ls -lR testDir | grep .json` --> Recursively looking all the directories and subdirectories inside testDir and lists all .json files
+    - `ls *.txt` -->  list all txt files
 4. `mkdir` - Make Directory
+        - `mkdir -p dir/subdir` --> Recursively creates directories
 5. `touch` - Creates a new (empty) file
 6. `cat` - Prints the content of the file
+    - `cat > a.txt` --> Update a.txt
+        - type whatever text you want and press `ctrl+d`
+        - Now run cat a.txt; content have been changed
+    - `cat >> a.txt` --> append in a.txt
 7. `vi`
     - The default editor that comes with the Linux/UNIX operating system is called `vi (visual editor)`. Using vi editor, we can `edit` an existing file or `create` a new file from scratch. we can also use this editor to just `read` a text file. The advanced version of the vi editor is the `vim` editor. 
     - By default in command mode
@@ -31,6 +40,7 @@
     - [Learn More](https://www.geeksforgeeks.org/vi-editor-unix/)
 8. `mv` - Move file from one directory to other
     - mv source(folder/file) destination(folder/file)
+        - `mv a.txt b.txt` --> Rename a.txt to b.txt
 9. `cp` - Copy file
     - cp source destination
     - e.g cp c.txt textFolder

@@ -1,1 +1,12 @@
-Hello World! 👋
+hi
+i'm changing
+a.txt
+using
+cat
+
+
+Now
+I'm appending
+
+in a.txt
+!
