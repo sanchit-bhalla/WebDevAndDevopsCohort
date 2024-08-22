@@ -10,3 +10,6 @@ I'm appending
 
 in a.txt
 !
+line 1
+two
+3

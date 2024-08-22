@@ -12,6 +12,10 @@
 2. `cd` - Change Directory
 3. `ls` - Listing files
     - `ls -l` --> to see details like file permissions, size, owner, last modified timestamp etc
+    - 3 types of permissions
+        - read
+        - write
+        - execute
     - `ls -R textFolder`
     - `-t flag` --> last modified
     - We can combine multiple options i.e `ls -lt textFolder`
@@ -47,3 +51,44 @@
     - `-r` (recursive flag) --> In case we need to copy all subdirectories and files of particular directory
         - cp -r folder1 otherFolder - Copy  all the content of folder1 inside otherFolder
 10. `clear` or `ctrl+l` - Clear teminal
+11. `chmod` - Change File permissions. We need to tell following things
+    - Setting the permissions for
+        - user (u)
+        - group (g)
+        - other (o)
+    - Add (+) or remove(-) permission
+    - read(r), write(r) or execute(x)
+    - -R for folders
+12. `echo` --> Print message on console
+    - echo "Hello World"
+    - echo $PATH
+13. `head` --> first 10 rows of the file
+    - head a.txt
+    - head -20 a.txt --> First 20 rows
+14. `tail` --> last 10 rows of the file
+    - tail a.txt
+15. `&&` --> combine commands
+16. `|` --> output of 1 flows into 2nd command
+17. `wc` --> line count, word count and character count
+18.  `grep` --> find patterns, words or phrases in file, directories etc
+19. `history` --> all commands that we ran
+20. `sed` -->  similar to grep but its popular bcz of substitue functionality
+    - sed substitute command
+    - sed s/pattern/replacement FILE
+
+### Bash Script
+- On the first line of our script, we must specify which interpreter we would like to parse our script. In case of bash, we must put `shebang` in the first line of our script
+    - shebang --> `#!/bin/bash`
+
+1. Create file newScript.sh
+    - touch newScript.sh
+2. Add the following content (using vi)
+    - ```
+        #!/bin/bash
+        #echo "Hello World!"
+        #mkdir automated_dir
+        #cd automated_dir && touch newscript_file.txt
+        #echo "new File Created!"
+    ```
+3. Run the file
+    - bash newScript.sh
