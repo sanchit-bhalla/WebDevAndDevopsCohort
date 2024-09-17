@@ -1,0 +1,15 @@
+{
+  "name": "cors",
+  "version": "1.0.0",
+  "description": "**Cross-Origin Resource Sharing (CORS)** is a security feature implemented by web browsers that controls how resources on a web server can be requested from another domain. It's a crucial mechanism for managing `cross-origin` requests and ensuring secure interactions between `different origins` on the web.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sanchit",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  }
+}
