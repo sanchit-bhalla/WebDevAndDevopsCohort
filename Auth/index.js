@@ -52,6 +52,21 @@ app.post("/signin", (req, res) => {
     }
 })
 
+app.get("/me", (req, res) => {
+    const token = req.headers.authorization;
+    const user = users.find(user => user.token === token)
+
+    if(user){
+        res.send({
+            username: user.username
+        })
+    } else{
+        res.status(401).send({
+            message: "You are not authorized!"
+        })
+    }
+})
+
 app.listen(port, (err) => {
     console.log('server is runnig on port: ' + port)
 })
