@@ -42,6 +42,14 @@ function auth(req, res, next){
     }
 }
 
+// Way 1
+app.use(express.static("./public"))
+
+// Way 2
+// app.get("/", (req, res) => {
+//     res.sendFile(__dirname + "/public/index.html")
+// })
+
 app.post("/signup", (req, res) => {
     const { username, password } = req.body
 
