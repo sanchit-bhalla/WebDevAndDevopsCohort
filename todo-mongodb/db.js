@@ -1,5 +1,6 @@
 const mongoose= require("mongoose")
 const Schema = mongoose.Schema
+const ObjectId = Schema.ObjectId
 
 const UserSchema = new Schema({
     email: {
@@ -8,10 +9,18 @@ const UserSchema = new Schema({
     },
     password: String,
     name: String,
-})
+}, {timestamps: true})
 
 const TodoSchema = new Schema({
-    description: String,
+    userId: ObjectId,
+    title: String,
     done: Boolean,
-    userId: Schema.ObjectId
-})
+}, {timestamps: true})
+
+const UserModal = mongoose.model('User', UserSchema) // collection name will be users
+const TodoModal = mongoose.model('Todo', TodoSchema) // collection name will be todos
+
+module.exports = {
+    UserModal,
+    TodoModal
+}
