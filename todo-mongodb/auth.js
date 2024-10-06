@@ -1,20 +1,26 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 // auth middleware
 function auth(req, res, next) {
-  const token = req.headers.authorization;
+  try {
+    const token = req.headers.authorization;
 
-  const response = jwt.verify(token, process.env.JWT_SECRET);
+    const response = jwt.verify(token, process.env.JWT_SECRET);
 
-  if (response) {
-    req.userId = token.userId;
-    next();
-  } else {
-    res.status(401).send({
-      message: "Unauthorized",
-    });
+    if (response) {
+      req.userId = response.id; // id bcz we use id as key in jwt.sign
+      next();
+    } else {
+      res.status(401).send({
+        message: "Unauthorized",
+      });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Some error occured. Please try after sometime" });
   }
 }
- module.exports = {
-	 auth
- }
+module.exports = {
+  auth,
+};
