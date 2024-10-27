@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const { DB_NAME } = require("../constants");
-
+const { MONGODB_URI } = require("../config");
 const connectDB = async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${process.env.MONGODB_URI}/${DB_NAME}`
+      `${MONGODB_URI}/${DB_NAME}`
     );
 
     console.log(
