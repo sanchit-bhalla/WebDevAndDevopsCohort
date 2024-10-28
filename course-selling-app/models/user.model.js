@@ -77,4 +77,6 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const User = mongoose.model("User", userSchema); // collection created with name `users` in the db
+const User = mongoose.model("User", userSchema); // collection created with name `users` in the db
+
+module.exports = { User };

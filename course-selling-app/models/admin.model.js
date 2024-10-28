@@ -79,4 +79,5 @@ adminSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const Admin = mongoose.model("Admin", adminSchema); // collection created with name `admins` in the db
+const Admin = mongoose.model("Admin", adminSchema); // collection created with name `admins` in the db
+module.exports = { Admin };

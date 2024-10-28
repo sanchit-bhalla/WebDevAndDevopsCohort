@@ -7,6 +7,7 @@ const {
   ADMIN_REFRESH_TOKEN_SECRET,
   ACCESS_TOKEN_EXPIRY,
   REFRESH_TOKEN_EXPIRY,
+  CORS_ORIGIN,
 } = process.env;
 
 module.exports = {
@@ -18,4 +19,5 @@ module.exports = {
   ADMIN_REFRESH_TOKEN_SECRET,
   ACCESS_TOKEN_EXPIRY,
   REFRESH_TOKEN_EXPIRY,
+  CORS_ORIGIN,
 };
