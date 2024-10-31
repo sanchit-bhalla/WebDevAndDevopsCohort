@@ -9,3 +9,4 @@
 - [Databases and MongoDb](https://petal-estimate-4e9.notion.site/Databases-and-MongoDb-1017dfd107358065a996cda5ed89682e)
 - [MongoDb Deep Dive](https://100x-b-mcdn.akamai.net.in/cohort-2-slides/Week_4.3.pdf)
 - [React Deep Dive](https://www.canva.com/design/DAGStTo7_1Y/H-uoNlkdJ2X4P3LbOME45Q/edit)
+- [React Part 1](https://petal-estimate-4e9.notion.site/React-Part-1-1177dfd1073580069172fc54e33929c0)
