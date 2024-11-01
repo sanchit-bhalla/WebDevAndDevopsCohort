@@ -78,4 +78,32 @@ const signinUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, { refreshToken }, "Signed In successfully!"));
 });
 
-module.exports = { registerUser, signinUser };
+const logoutUser = asyncHandler(async (req, res) => {
+  // clear cookies and reset the refreshToken
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      // $set: { refreshToken: "" }, // or unset the field
+      $unset: {
+        refreshToken: 1, // This removes the field from the document
+      },
+    },
+    {
+      new: true, // return the modified document rather than the original
+    }
+  );
+
+  // Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "User logged out successfully!"));
+});
+
+module.exports = { registerUser, signinUser, logoutUser };
