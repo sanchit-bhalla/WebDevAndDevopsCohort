@@ -150,4 +150,40 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     );
 });
 
-module.exports = { registerUser, signinUser, logoutUser, refreshAccessToken };
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword, confirmNewPassword } = req.body;
+
+  if (newPassword !== confirmNewPassword)
+    throw new ApiError(400, "New password and confirm password didn't match!");
+
+  const passwordBody = z.object({
+    newPassword: z.string().min(8),
+    confirmNewPassword: z.string().min(8),
+  });
+
+  const { error } = passwordBody.safeParse(req.body);
+
+  if (error) throw new ApiError(400, "Incorrect fields", error);
+
+  const user = await User.findById(req.user?._id);
+  if (!user) throw new ApiError(401, "not authorized");
+
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+  if (!isPasswordCorrect)
+    throw new ApiError("400", "Old password didn't match");
+
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password changed successfully!"));
+});
+
+module.exports = {
+  registerUser,
+  signinUser,
+  logoutUser,
+  refreshAccessToken,
+  changeCurrentPassword,
+};
