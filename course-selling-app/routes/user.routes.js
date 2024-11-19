@@ -5,6 +5,7 @@ const {
   registerUser,
   signinUser,
   logoutUser,
+  refreshAccessToken,
 } = require("../controllers/user.controller");
 const { verifyUserJWT } = require("../middlewares/authUser.middleware");
 
@@ -16,7 +17,7 @@ userRouter.post("/signin", signinUser);
 
 userRouter.post("/logout", verifyUserJWT, logoutUser);
 
-userRouter.post("/refresh-token", (req, res, next) => {});
+userRouter.post("/refresh-token", refreshAccessToken);
 
 userRouter.post("/reset-password", (req, res, next) => {});
 

@@ -5,6 +5,7 @@ const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { User } = require("../models/user.model");
+const { USER_REFRESH_TOKEN_SECRET } = require("../config");
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -106,4 +107,47 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out successfully!"));
 });
 
-module.exports = { registerUser, signinUser, logoutUser };
+const refreshAccessToken = asyncHandler(async (req, res) => {
+  // If someone is using mobile app then we need req.body.refreshToken
+  const incomingRefreshToken =
+    req.cookies.refreshToken || req.body.refreshToken;
+
+  if (!incomingRefreshToken) throw new ApiError(401, "unauthorized request");
+
+  const decodedRefreshToken = jwt.verify(
+    incomingRefreshToken,
+    USER_REFRESH_TOKEN_SECRET
+  );
+  // console.log({ decodedRefreshToken });
+
+  const user = await User.findById(decodedRefreshToken?._id);
+  if (!user) throw new ApiError(401, "Invalid Refresh token!");
+
+  if (incomingRefreshToken !== user?.refreshToken)
+    throw new ApiError(401, "Refresh token is expired!");
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    user._id
+  );
+
+  const options = {
+    httpOnly: true, // Flags the cookie to be accessible only by the web server
+    secure: true, // cookie to be used with HTTPS only.
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          refreshToken,
+        },
+        "Access Token Refreshed successfully!"
+      )
+    );
+});
+
+module.exports = { registerUser, signinUser, logoutUser, refreshAccessToken };
