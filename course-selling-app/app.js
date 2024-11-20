@@ -24,7 +24,7 @@ app.use("/api/v1/admin", adminRouter);
 
 app.use((err, req, res, next) => {
   if (res.headersSent) return next(err);
-  console.log({ err });
+  // console.log({ err });
   res.status(err.statusCode || 500);
   const errObj = {};
   if (err.message) errObj["message"] = err.message;

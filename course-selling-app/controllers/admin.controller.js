@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { z } = require("zod");
 const { asyncHandler } = require("../utils/asyncHandler");
 const { Admin } = require("../models/admin.model");
+const { Course } = require("../models/course.model");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { ADMIN_REFRESH_TOKEN_SECRET } = require("../config");
@@ -180,10 +181,74 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully!"));
 });
 
+const createCourse = asyncHandler(async (req, res) => {
+  const requiredBody = z.object({
+    title: z.string().trim().min(3).max(50),
+    description: z.string().trim().min(1).max(500),
+    price: z.number().nonnegative(),
+    thumbnail: z.string().min(1),
+  });
+
+  const { error } = requiredBody.safeParse(req.body);
+  if (error)
+    throw new ApiError(
+      400,
+      "Missing fields required or incorrect data types",
+      error
+    );
+
+  const { title, description, price, thumbnail } = req.body;
+
+  const adminId = req.user?._id;
+
+  const course = await Course.create({
+    title,
+    description,
+    price,
+    thumbnail,
+    creator: adminId,
+  });
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        201,
+        { courseId: course?._id },
+        "course created successfully!"
+      )
+    );
+});
+
+const updateCourse = asyncHandler(async (req, res) => {
+  const requiredBody = z.object({
+    title: z.string().trim().min(3).max(50).optional(),
+    description: z.string().trim().min(1).max(500).optional(),
+    price: z.number().nonnegative().optional(),
+    thumbnail: z.string().min(1).optional(),
+  });
+
+  const { error } = requiredBody.safeParse(req.body);
+  if (error) throw new ApiError(400, "Incorrect fields", error);
+
+  const { id: courseId } = req.params;
+
+  const updatedCourse = await Course.findByIdAndUpdate(courseId, req.body, {
+    new: true,
+  });
+  if (!updatedCourse) throw new ApiError(400, "Course not found");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedCourse, "Course updated successfully!"));
+});
+
 module.exports = {
   registerAdmin,
   signinAdmin,
   logoutAdmin,
   refreshAccessToken,
   changeCurrentPassword,
+  createCourse,
+  updateCourse,
 };

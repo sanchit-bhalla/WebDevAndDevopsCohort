@@ -5,6 +5,8 @@ const {
   logoutAdmin,
   refreshAccessToken,
   changeCurrentPassword,
+  createCourse,
+  updateCourse,
 } = require("../controllers/admin.controller");
 const { verifyAdminJWT } = require("../middlewares/authAdmin.middleware");
 
@@ -19,5 +21,9 @@ adminRouter.post("/logout", verifyAdminJWT, logoutAdmin);
 adminRouter.post("/refresh-token", refreshAccessToken);
 
 adminRouter.post("/reset-password", verifyAdminJWT, changeCurrentPassword);
+
+adminRouter.post("/course", verifyAdminJWT, createCourse);
+
+adminRouter.patch("/course/:id", verifyAdminJWT, updateCourse);
 
 module.exports = { adminRouter };
