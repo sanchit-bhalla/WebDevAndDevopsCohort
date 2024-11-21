@@ -243,6 +243,13 @@ const updateCourse = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedCourse, "Course updated successfully!"));
 });
 
+const getCreatedCourses = asyncHandler(async (req, res) => {
+  const adminId = req.user?._id;
+  const courses = await Course.find({ creator: adminId });
+
+  return res.status(200).json(new ApiResponse(200, courses));
+});
+
 module.exports = {
   registerAdmin,
   signinAdmin,
@@ -251,4 +258,5 @@ module.exports = {
   changeCurrentPassword,
   createCourse,
   updateCourse,
+  getCreatedCourses,
 };

@@ -30,4 +30,10 @@ const purchaseCourse = asyncHandler(async (req, res) => {
     );
 });
 
-module.exports = { purchaseCourse };
+const previewCourses = asyncHandler(async (req, res) => {
+  // TODO: use something like pagination to show courses in batches
+  const courses = await Course.find({});
+  return res.status(200).json(new ApiResponse(200, courses));
+});
+
+module.exports = { purchaseCourse, previewCourses };
