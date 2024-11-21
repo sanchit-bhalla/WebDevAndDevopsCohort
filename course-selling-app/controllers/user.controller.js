@@ -5,6 +5,8 @@ const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { User } = require("../models/user.model");
+const { Purchase } = require("../models/purchase.model");
+const { Course } = require("../models/course.model");
 const { USER_REFRESH_TOKEN_SECRET } = require("../config");
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -180,10 +182,25 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully!"));
 });
 
+const purchasedCourses = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+
+  const purchases = await Purchase.find({ user: userId });
+
+  let purchasedCourseIds = purchases.map((purchase) => purchase.course);
+
+  const courses = await Course.find({
+    _id: { $in: purchasedCourseIds },
+  }).select("title description price");
+
+  return res.status(200).json(new ApiResponse(200, { courses }));
+});
+
 module.exports = {
   registerUser,
   signinUser,
   logoutUser,
   refreshAccessToken,
   changeCurrentPassword,
+  purchasedCourses,
 };
