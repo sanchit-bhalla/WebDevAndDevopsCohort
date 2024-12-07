@@ -10,3 +10,5 @@
 - [MongoDb Deep Dive](https://100x-b-mcdn.akamai.net.in/cohort-2-slides/Week_4.3.pdf)
 - [React Deep Dive](https://www.canva.com/design/DAGStTo7_1Y/H-uoNlkdJ2X4P3LbOME45Q/edit)
 - [React Part 1](https://petal-estimate-4e9.notion.site/React-Part-1-1177dfd1073580069172fc54e33929c0)
+- [Recoil](https://petal-estimate-4e9.notion.site/Recoil-1247dfd107358016bdb1ea1bb52e4a68)
+- [Recoil Deep Dive](https://drive.google.com/file/d/1DKFKbl35icY1LD7tIt7jGawpd7UZtZT1/view)
