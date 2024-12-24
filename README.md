@@ -12,3 +12,6 @@
 - [React Part 1](https://petal-estimate-4e9.notion.site/React-Part-1-1177dfd1073580069172fc54e33929c0)
 - [Recoil](https://petal-estimate-4e9.notion.site/Recoil-1247dfd107358016bdb1ea1bb52e4a68)
 - [Recoil Deep Dive](https://drive.google.com/file/d/1DKFKbl35icY1LD7tIt7jGawpd7UZtZT1/view)
+- [Ui/UX Primitives](https://pricey-pyjama-7d5.notion.site/UI-UX-Primitives-12521c8092ab809bb9cfe39227759220)
+- [Typescript](https://projects.100xdevs.com/tracks/6SbPPXGkG8QKFOTW9BmL/ts-1)
+- [More Typescript API](https://projects.100xdevs.com/tracks/ts-hard/ts-hard-1)
