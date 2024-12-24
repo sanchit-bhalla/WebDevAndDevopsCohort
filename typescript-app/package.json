@@ -1,0 +1,17 @@
+{
+  "name": "typescript-app",
+  "version": "1.0.0",
+  "description": "typescript practice app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "sanchit-bhalla",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
