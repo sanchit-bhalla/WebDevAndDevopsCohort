@@ -1,16 +1,24 @@
 import "dotenv/config";
-import express from "express";
-
-const app = express();
+import { connectDB } from "./db";
 import { PORT } from "./config";
+import { app } from "./app";
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-app.get("/hia", (req, res) => {
-  res.send("Hello World");
-});
+let server;
+try {
+  connectDB()
+    .then(() => {
+      app.on("error", (err) => {
+        console.log("ERR:", err);
+        throw err;
+      });
 
-app.listen(PORT || 8000, () => {
-  console.log(`App is listening on port ${PORT || 8000}`);
-});
+      server = app.listen(PORT || 8000, () => {
+        console.log(`App is listening on port ${PORT || 8000}`);
+      });
+    })
+    .catch((err) => {
+      console.log(`SERVER DOWN !`, err);
+    });
+} catch (err) {
+  console.log("DB not connected", err);
+}
