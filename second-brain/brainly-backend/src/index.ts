@@ -1,9 +1,10 @@
 import "dotenv/config";
+import { Server } from "http";
 import { connectDB } from "./db";
 import { PORT } from "./config";
 import { app } from "./app";
 
-let server;
+let server: Server;
 try {
   connectDB()
     .then(() => {
@@ -22,3 +23,12 @@ try {
 } catch (err) {
   console.log("DB not connected", err);
 }
+
+process.on("unhandledRejection", (err: any) => {
+  console.log(err?.name, err?.message);
+  console.log("Unhandled exception occured! Shutting down...");
+
+  server?.close(() => {
+    process.exit(1);
+  });
+});
