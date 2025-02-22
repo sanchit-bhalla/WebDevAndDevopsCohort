@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Document, Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
@@ -8,7 +8,17 @@ import {
   REFRESH_TOKEN_SECRET,
 } from "../config";
 
-const userSchema = new Schema(
+interface UserDocument extends Document {
+  username: string;
+  email: string;
+  password: string;
+  refreshToken: string;
+  generateAccessToken: () => string;
+  generateRefreshToken: () => string;
+  isPasswordCorrect: (password: string) => boolean;
+}
+
+const userSchema = new Schema<UserDocument>(
   {
     username: { type: String, unique: true, required: true },
     email: {
@@ -22,6 +32,9 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+    },
+    refreshToken: {
+      type: String,
     },
   },
   { timestamps: true } // createdAt, updatedAt

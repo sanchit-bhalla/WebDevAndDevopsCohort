@@ -1,15 +1,10 @@
 import "../types/express";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
-import { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError";
 import { ACCESS_TOKEN_SECRET } from "../config";
 import { User } from "../models/user.model";
-
-interface DecodeTokenJwt {
-  _id: mongoose.Types.ObjectId | string;
-}
+import { DecodedTokenJwt } from "../types/DecodedTokenJwt";
 
 export const VerifyJWT = asyncHandler(async (req, _, next) => {
   try {
@@ -22,7 +17,7 @@ export const VerifyJWT = asyncHandler(async (req, _, next) => {
     const decodedTokenJwt = jwt.verify(
       token,
       ACCESS_TOKEN_SECRET as string
-    ) as DecodeTokenJwt;
+    ) as DecodedTokenJwt;
 
     const user = await User.findById(decodedTokenJwt._id).select(
       "-password -refreshToken"
