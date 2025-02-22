@@ -20,10 +20,8 @@ app.use("/api/v1/users", userRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.headersSent) return next(err);
-
-  res.status(err.statusCode || 500);
-  if (res.headersSent) return next(err);
   // console.log({ err });
+
   res.status(err.statusCode || 500);
   const errObj: {
     message?: string;
