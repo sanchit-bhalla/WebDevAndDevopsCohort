@@ -17,4 +17,5 @@
 - [Typescript](https://projects.100xdevs.com/tracks/6SbPPXGkG8QKFOTW9BmL/ts-1)
 - [More Typescript API](https://projects.100xdevs.com/tracks/ts-hard/ts-hard-1)
 - [Second Brain](https://petal-estimate-4e9.notion.site/Building-a-second-brain-app-1407dfd1073580c19ac3cbe9afa9ac27)
+- [Websockets](https://petal-estimate-4e9.notion.site/WebSockets-1477dfd10735802982becc925074b5f0)
 - [SQL Databases](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
