@@ -71,7 +71,9 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
-    .json(new ApiResponse(200, { refreshToken }, "Signed In successfully"));
+    .json(
+      new ApiResponse(200, { refreshToken, user }, "Signed In successfully")
+    );
 });
 
 export const refreshAccessToken = asyncHandler(
