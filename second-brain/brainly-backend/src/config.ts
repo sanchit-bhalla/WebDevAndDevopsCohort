@@ -7,6 +7,7 @@ const {
   ACCESS_TOKEN_EXPIRY,
   REFRESH_TOKEN_EXPIRY,
   CORS_ORIGIN,
+  ENV,
 } = process.env;
 
 export {
@@ -18,4 +19,5 @@ export {
   ACCESS_TOKEN_EXPIRY,
   REFRESH_TOKEN_EXPIRY,
   CORS_ORIGIN,
+  ENV,
 };

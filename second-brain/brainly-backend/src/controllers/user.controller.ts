@@ -13,6 +13,11 @@ const generateAccessAndRefreshToken = async (userId: any) => {
     const user = await User.findById(userId);
     const accessToken = user?.generateAccessToken();
     const refreshToken = user?.generateRefreshToken();
+
+    if (!user) throw new Error("user not found");
+    user.refreshToken = refreshToken || "";
+    await user.save({ validateBeforeSave: false }); //  save without validating bcz we don't need to validate here as we just update refreshToken
+
     return { accessToken, refreshToken };
   } catch (err) {
     throw new ApiError(
@@ -65,6 +70,7 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
   const options = {
     httpOnly: true, // Flags the cookie to be accessible only by the web server
     secure: true, // cookie to be used with HTTPS only.
+    sameSite: "none" as const,
   };
 
   return res
@@ -72,7 +78,11 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
-      new ApiResponse(200, { refreshToken, user }, "Signed In successfully")
+      new ApiResponse(
+        200,
+        { accessToken, refreshToken },
+        "Signed In successfully"
+      )
     );
 });
 
@@ -101,6 +111,7 @@ export const refreshAccessToken = asyncHandler(
     const options = {
       httpOnly: true, // Flags the cookie to be accessible only by the web server
       secure: true, // cookie to be used with HTTPS only.
+      sameSite: "none" as const,
     };
 
     return res
@@ -110,7 +121,7 @@ export const refreshAccessToken = asyncHandler(
       .json(
         new ApiResponse(
           200,
-          { refreshToken },
+          { accessToken, refreshToken },
           "Access Token Refreshed successfully!"
         )
       );
@@ -135,6 +146,7 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: "none" as const,
   };
 
   return res

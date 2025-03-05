@@ -15,7 +15,7 @@ interface UserDocument extends Document {
   refreshToken: string;
   generateAccessToken: () => string;
   generateRefreshToken: () => string;
-  isPasswordCorrect: (password: string) => boolean;
+  isPasswordCorrect: (password: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<UserDocument>(
