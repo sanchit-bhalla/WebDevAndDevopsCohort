@@ -8,7 +8,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
   const [showUserDetails, setShowUserDetails] = useState<boolean>(false);
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const toggleUserDetails = () => {
     setShowUserDetails((prevState) => !prevState);
@@ -16,9 +16,9 @@ const Header = () => {
   return (
     <nav className=" row-span-1 col-span-full p-4">
       <div className="flex justify-between items-center relative">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1  ">
           <BrainIcon width={40} height={40} />
-          <h2 className="text-2xl font-bold text-purple-600 font-sans">
+          <h2 className="text-4xl font-semibold text-purple-6000 font-sans tracking-tight -mt-1.5">
             Brainly
           </h2>
         </div>
@@ -50,7 +50,12 @@ const Header = () => {
                 <div className=" py-2 border-b border-b-slate-200">
                   Welcome {user?.username || "Guest"} !
                 </div>
-                <div className="py-2 text-purple-600">Logout</div>
+                <div
+                  className="py-2 text-purple-600 cursor-pointer"
+                  onClick={logout}
+                >
+                  Logout
+                </div>
               </div>
             )}
           </>

@@ -7,6 +7,7 @@ interface ButtonProps {
   endIcon?: ReactNode;
   variant: "primary" | "secondary";
   loading?: boolean;
+  disabled?: boolean;
   extraStyles?: string;
 }
 
@@ -23,15 +24,16 @@ const variantStyles = {
 function Button(props: ButtonProps) {
   const StartIcon = props.startIcon;
   const EndIcon = props.endIcon;
-  const loadingStyles = props.loading
-    ? "opacity-80"
-    : "opacity-95 hover:opacity-100 cursor-pointer";
+  const loadingStyles =
+    props.loading || props.disabled
+      ? "opacity-80"
+      : "opacity-95 hover:opacity-100 cursor-pointer";
   return (
     <button
       className={`flex justify-center items-center gap-2 ${loadingStyles} ${
         sizeStyles[props.size]
       } ${variantStyles[props.variant]} ${props.extraStyles} `}
-      disabled={props.loading}
+      disabled={props.disabled || props.loading}
     >
       {props.loading && (
         <svg

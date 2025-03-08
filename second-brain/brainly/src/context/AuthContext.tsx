@@ -1,5 +1,5 @@
-import axios from "axios";
-import { createContext, ReactNode, useState } from "react";
+import axios from "../utils/axios";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { BACKEND_HOST } from "../constants";
 
 interface User {
@@ -7,24 +7,20 @@ interface User {
   username: string;
   email: string;
 }
-
-interface RegisterBodyType {
-  username: string;
-  email: string;
-  password: string;
-}
-
-interface LoginBodyType {
-  email: string;
-  password: string;
+interface LoginType {
+  // user: User;
+  accessToken: string;
+  refreshToken: string;
 }
 
 interface AuthContextType {
   isAuthenticated: boolean | null;
+  loading: boolean;
   user: User | null;
   refreshToken: string | null;
-  register: (registerBody: RegisterBodyType) => Promise<boolean>;
-  login: (loginBody: LoginBodyType) => void;
+  accessToken: string | null;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  login: (loginResponse: LoginType) => void;
   logout: () => void;
 }
 
@@ -38,35 +34,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const register = async (registerBody: RegisterBodyType) => {
+  useEffect(() => {
+    const resetTokens = async () => {
+      try {
+        // console.log({ refreshToken });
+        // if (!refreshToken) throw new Error("Refresh token not present");
+
+        // Even if refresh Token not present in not present in the memory( i.e refreshToken is null), it might be set in httpOnly cookie, so backend can access it from there
+        const response = await axios.post(
+          `${BACKEND_HOST}/api/v1/users/refresh-token`,
+          {
+            refreshToken,
+          }
+        );
+        // console.log("AFTER REFRESHING TOKEN: ", response.data);
+
+        login(response.data?.data);
+      } catch (err) {
+        console.log(err);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    resetTokens();
+  }, []);
+
+  const login = (loginResponse: LoginType) => {
     try {
-      const response = await axios.post(
-        `${BACKEND_HOST}/api/v1/users/signup`,
-        registerBody
-      );
+      const { accessToken, refreshToken } = loginResponse;
 
-      const statusCode = response?.data?.statusCode;
-      return statusCode === 201;
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
-  };
+      // For security reasons, don't store tokens in local Storage. Instead store it in memory(state) only
+      // localStorage.setItem("accessToken", accessToken);
+      // localStorage.setItem("refreshToken", refreshToken);
 
-  const login = async (loginBody: LoginBodyType) => {
-    try {
-      const response = await axios.post(
-        `${BACKEND_HOST}/api/v1/users`,
-        loginBody
-      );
-
-      const { refreshToken, user } = response.data;
       setIsAuthenticated(true);
-      setUser(user);
       setRefreshToken(refreshToken);
-    } catch (err) {
-      console.log(err);
+      setAccessToken(accessToken);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -84,7 +94,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, refreshToken, user, register, login, logout }}
+      value={{
+        isAuthenticated,
+        accessToken,
+        refreshToken,
+        user,
+        loading,
+        setIsAuthenticated,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

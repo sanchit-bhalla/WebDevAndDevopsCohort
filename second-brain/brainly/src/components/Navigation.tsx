@@ -4,10 +4,12 @@ import Login from "./Login";
 import Register from "./Register";
 import Home from "./Home";
 import { useAuth } from "../hooks/useAuth";
+import ProgressBar from "./ProgressBar/ProgressBar";
 
 function Navigation() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
+  if (loading) return <ProgressBar />;
   return (
     <BrowserRouter>
       <Routes>
