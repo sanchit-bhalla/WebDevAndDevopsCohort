@@ -21,7 +21,7 @@ export const getAllContents = asyncHandler(async (req, res, next) => {
 export const addContent = asyncHandler(async (req, res, next) => {
   const contentSchema = z.object({
     link: z.string().min(1, "link is required"),
-    type: z.enum(["image", "video", "article", "audio"]),
+    type: z.enum(["image", "video", "article", "audio", "tweet"]),
     title: z.string().min(1, "Title is required"),
     tags: z.string().array(), // or z.array(z.string());
   });
