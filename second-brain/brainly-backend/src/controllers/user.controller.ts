@@ -66,6 +66,8 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     user._id
   );
 
+  const userDetails = { username: user.username, email: user.email };
+
   // By default cookies can be modified from frontend. But if we pass below options, then cookies can be modified from server only
   const options = {
     httpOnly: true, // Flags the cookie to be accessible only by the web server
@@ -80,7 +82,7 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     .json(
       new ApiResponse(
         200,
-        { accessToken, refreshToken },
+        { accessToken, refreshToken, user: userDetails },
         "Signed In successfully"
       )
     );
