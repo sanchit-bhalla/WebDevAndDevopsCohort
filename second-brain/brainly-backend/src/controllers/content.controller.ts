@@ -5,13 +5,13 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError";
 
 export const getAllContents = asyncHandler(async (req, res, next) => {
-  const contents = await Content.find({ userId: req.user?._id })
+  const contents = await Content.find({ user: req.user?._id })
+    // .populate({
+    //   path: "tags",
+    //   select: "title",
+    // })
     .populate({
-      path: "tags",
-      select: "title",
-    })
-    .populate({
-      path: "userId",
+      path: "user",
       select: "username",
     });
 
@@ -21,9 +21,9 @@ export const getAllContents = asyncHandler(async (req, res, next) => {
 export const addContent = asyncHandler(async (req, res, next) => {
   const contentSchema = z.object({
     link: z.string().min(1, "link is required"),
-    type: z.enum(["image", "video", "article", "audio", "tweet"]),
+    type: z.enum(["image", "video", "article", "audio", "youtube", "tweet"]),
     title: z.string().min(1, "Title is required"),
-    tags: z.string().array(), // or z.array(z.string());
+    tags: z.string().array().optional(), // or z.array(z.string());
   });
 
   const { error, data } = contentSchema.safeParse(req.body);
@@ -32,7 +32,7 @@ export const addContent = asyncHandler(async (req, res, next) => {
 
   await Content.create({
     ...data,
-    userId: req.user._id,
+    user: req.user._id,
   });
   return res
     .status(201)
@@ -45,7 +45,7 @@ export const removeContent = asyncHandler(async (req, res, next) => {
   // Logged In user can delete his own content only
   await Content.deleteOne({
     _id: contentId,
-    userId: req.user._id,
+    user: req.user._id,
   });
 
   return res

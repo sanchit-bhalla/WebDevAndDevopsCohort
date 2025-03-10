@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const contentTypes = ["image", "video", "article", "audio", "tweet"];
+const contentTypes = ["image", "video", "article", "audio", "youtube", "tweet"];
 
 const contentSchema = new Schema({
   link: {
@@ -22,7 +22,7 @@ const contentSchema = new Schema({
       ref: "Tag",
     },
   ],
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
