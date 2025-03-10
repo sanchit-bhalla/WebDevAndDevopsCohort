@@ -6,6 +6,7 @@ import { ApiError } from "../utils/ApiError";
 
 export const getAllContents = asyncHandler(async (req, res, next) => {
   const contents = await Content.find({ user: req.user?._id })
+    .sort({ createdAt: -1 })
     // .populate({
     //   path: "tags",
     //   select: "title",
