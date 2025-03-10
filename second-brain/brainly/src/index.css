@@ -5,3 +5,9 @@
   --color-purple-500: #3e38a7;
   --color-purple-600: #5046e4;
 }
+
+.text-gradient {
+  background-image: linear-gradient(to right, #3e38a7, #0061c4, #0082d2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -9,6 +9,8 @@ interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   extraStyles?: string;
+  // onClick?: (e?: React.MouseEventHandler<HTMLButtonElement>) => void;
+  onClick?: () => void;
 }
 
 const sizeStyles = {
@@ -34,6 +36,10 @@ function Button(props: ButtonProps) {
         sizeStyles[props.size]
       } ${variantStyles[props.variant]} ${props.extraStyles} `}
       disabled={props.disabled || props.loading}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (props.onClick) props.onClick();
+      }}
     >
       {props.loading && (
         <svg

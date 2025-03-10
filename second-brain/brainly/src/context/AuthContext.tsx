@@ -3,12 +3,12 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { BACKEND_HOST } from "../constants";
 
 interface User {
-  id: string;
+  // id: string;
   username: string;
   email: string;
 }
 interface LoginType {
-  // user: User;
+  user?: User;
   accessToken: string;
   refreshToken: string;
 }
@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = (loginResponse: LoginType) => {
     try {
-      const { accessToken, refreshToken } = loginResponse;
+      const { accessToken, refreshToken, user } = loginResponse;
 
       // For security reasons, don't store tokens in local Storage. Instead store it in memory(state) only
       // localStorage.setItem("accessToken", accessToken);
@@ -75,6 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsAuthenticated(true);
       setRefreshToken(refreshToken);
       setAccessToken(accessToken);
+      if (user) setUser(user);
     } catch (error) {
       console.log(error);
     }

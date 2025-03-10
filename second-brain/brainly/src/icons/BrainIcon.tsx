@@ -1,8 +1,4 @@
-interface IconProps {
-  width?: number;
-  height?: number;
-  color?: string;
-}
+import { IconProps } from "../../types/types";
 
 const BrainIcon = (props: IconProps) => (
   <svg

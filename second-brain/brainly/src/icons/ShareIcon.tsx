@@ -1,5 +1,6 @@
 interface ShareIconProps {
   size?: "sm" | "md" | "lg";
+  color?: string;
 }
 
 const sizeVariants = {
@@ -15,7 +16,7 @@ export function ShareIcon(props: ShareIconProps) {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
-      stroke="currentColor"
+      stroke={props.color || "currentColor"}
       className={sizeVariants[props.size || "sm"]}
     >
       <path

@@ -5,10 +5,15 @@ import { ShareIcon } from "../icons/ShareIcon";
 import UserIcon from "../icons/UserIcon";
 import Button from "./Button";
 import { useAuth } from "../hooks/useAuth";
+import Modal from "./Modal";
+import AddContent from "./AddContent";
 
 const Header = () => {
   const [showUserDetails, setShowUserDetails] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+
+  const closeModal = () => setShowModal(false);
 
   const toggleUserDetails = () => {
     setShowUserDetails((prevState) => !prevState);
@@ -18,7 +23,7 @@ const Header = () => {
       <div className="flex justify-between items-center relative">
         <div className="flex items-center gap-1  ">
           <BrainIcon width={40} height={40} />
-          <h2 className="text-4xl font-semibold text-purple-6000 font-sans tracking-tight -mt-1.5">
+          <h2 className="text-4xl text-gradient font-semibold font-sans tracking-tight -mt-1.5">
             Brainly
           </h2>
         </div>
@@ -36,6 +41,7 @@ const Header = () => {
                 size="md"
                 variant="primary"
                 startIcon={<PlusIcon size="md" />}
+                onClick={() => setShowModal(true)}
               />
 
               <button
@@ -61,6 +67,9 @@ const Header = () => {
           </>
         ) : null}
       </div>
+      <Modal isOpen={showModal} onClose={closeModal}>
+        <AddContent closeModal={closeModal} />
+      </Modal>
     </nav>
   );
 };
