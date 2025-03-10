@@ -110,6 +110,8 @@ export const refreshAccessToken = asyncHandler(
       user._id
     );
 
+    const userDetails = { username: user.username, email: user.email };
+
     const options = {
       httpOnly: true, // Flags the cookie to be accessible only by the web server
       secure: true, // cookie to be used with HTTPS only.
@@ -123,7 +125,7 @@ export const refreshAccessToken = asyncHandler(
       .json(
         new ApiResponse(
           200,
-          { accessToken, refreshToken },
+          { accessToken, refreshToken, user: userDetails },
           "Access Token Refreshed successfully!"
         )
       );
