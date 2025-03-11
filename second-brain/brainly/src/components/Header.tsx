@@ -20,7 +20,7 @@ const Header = () => {
   };
   return (
     <nav className=" row-span-1 col-span-full p-4">
-      <div className="flex justify-between items-center relative">
+      <div className="flex flex-col sm:flex-row gap-2 justify-between items-center relative">
         <div className="flex items-center gap-1  ">
           <BrainIcon width={40} height={40} />
           <h2 className="text-4xl text-gradient font-semibold font-sans tracking-tight -mt-1.5">
@@ -29,7 +29,7 @@ const Header = () => {
         </div>
         {isAuthenticated ? (
           <>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <Button
                 title="Share Brain"
                 size="md"

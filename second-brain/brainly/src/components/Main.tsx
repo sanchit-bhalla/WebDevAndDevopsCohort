@@ -46,7 +46,7 @@ function Main() {
         </div>
       )}
       {!loading && !error && (
-        <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
+        <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(350px,1fr))]">
           {brain.map((content) => (
             <ContentCard key={content._id} content={content} />
           ))}

@@ -5,7 +5,7 @@ interface ButtonProps {
   size: "lg" | "sm" | "md";
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  variant: "primary" | "secondary";
+  variant: "primary" | "secondary" | "danger" | "neutral";
   loading?: boolean;
   disabled?: boolean;
   extraStyles?: string;
@@ -22,6 +22,8 @@ const sizeStyles = {
 const variantStyles = {
   primary: "bg-purple-600 text-white",
   secondary: "bg-purple-300 text-purple-600",
+  danger: "bg-red-500 text-white uppercase",
+  neutral: "bg-slate-200 text-black",
 };
 function Button(props: ButtonProps) {
   const StartIcon = props.startIcon;

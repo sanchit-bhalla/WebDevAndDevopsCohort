@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrainContent } from "../../types/types";
 import Button from "./Button";
 import YoutubeIcon from "../icons/YoutubeIcon";
@@ -6,6 +6,8 @@ import TwitterIcon from "../icons/TwitterIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import DeleteIcon from "../icons/DeleteIcon";
 import { formatDate } from "../utils/utilities";
+import Modal from "./Modal";
+import DeleteContent from "./DeleteContent";
 
 interface ContentCardProps {
   content: BrainContent;
@@ -14,6 +16,9 @@ interface ContentCardProps {
 const IconColor = "oklch(0.446 0.043 257.281)";
 
 const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => setShowModal(false);
+
   const creationDate = formatDate(content.createdAt);
   const renderIcon = () => {
     if (content.type === "youtube")
@@ -50,18 +55,18 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
   };
 
   return (
-    <div className="bg-whites rounded-lg p-4 mb-4 border border-slate-300">
+    <div className="bg-whites rounded-lg p-4 mb-4 border border-slate-200">
       <div className="flex justify-between items-center mb-4 gap-3">
         <div className="flex items-center gap-2">
-          {renderIcon()}
+          <span>{renderIcon()}</span>
           <h3 className="text-xl font-semibold">{content.title}</h3>
         </div>
         <div className="flex items-center gap-3">
           <div className="cursor-pointer">
             <ShareIcon size="md" color={IconColor} />
           </div>
-          <div className="cursor-pointer">
-            <DeleteIcon width={30} height={30} color={IconColor} />
+          <div className="cursor-pointer" onClick={() => setShowModal(true)}>
+            <DeleteIcon width={20} height={20} color={IconColor} />
           </div>
         </div>
       </div>
@@ -81,6 +86,12 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
       <p className="text-md  mt-4">
         Added on <span className="text-slate-600">{creationDate}</span>
       </p>
+
+      {showModal && (
+        <Modal isOpen={showModal} onClose={closeModal}>
+          <DeleteContent content={content} closeModal={closeModal} />
+        </Modal>
+      )}
     </div>
   );
 };

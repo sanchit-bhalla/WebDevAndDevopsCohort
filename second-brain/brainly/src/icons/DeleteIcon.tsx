@@ -6,7 +6,7 @@ const DeleteIcon = (props: IconProps) => (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke={props.color || "currentColor"}
-    className="size-6"
+    // className="size-6"
     {...props}
   >
     <path
