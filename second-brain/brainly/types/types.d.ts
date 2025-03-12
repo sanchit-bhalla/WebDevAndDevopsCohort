@@ -16,3 +16,10 @@ export interface BrainContent {
   };
   createdAt: string;
 }
+
+export interface NotificationProps {
+  message: string;
+  duration: number; // duration in milliseconds
+  animationDelay: number;
+  variant?: "success" | "fail" | "neutral";
+}

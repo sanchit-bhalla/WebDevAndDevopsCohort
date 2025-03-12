@@ -5,6 +5,7 @@ import useAxios from "../hooks/useAxios";
 import useBrain from "../hooks/useBrain";
 import { BACKEND_HOST } from "../constants";
 import { BrainContent } from "../../types/types";
+import { useNotification } from "../hooks/useNotification";
 
 interface DeleteContentProps {
   content: BrainContent;
@@ -17,6 +18,7 @@ const DeleteContent: React.FC<DeleteContentProps> = ({
 }) => {
   const axios = useAxios();
   const { refetchBrain } = useBrain();
+  const { addNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -30,6 +32,8 @@ const DeleteContent: React.FC<DeleteContentProps> = ({
         method: "DELETE",
         withCredentials: true,
       });
+
+      addNotification("Content Deleted successfully.", 2000, 300, "success");
 
       refetchBrain();
 
