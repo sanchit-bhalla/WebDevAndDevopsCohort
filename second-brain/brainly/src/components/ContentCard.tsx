@@ -5,9 +5,10 @@ import YoutubeIcon from "../icons/YoutubeIcon";
 import TwitterIcon from "../icons/TwitterIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import DeleteIcon from "../icons/DeleteIcon";
-import { formatDate } from "../utils/utilities";
+import { copyToClipboard, formatDate, getYTVideoUrl } from "../utils/utilities";
 import Modal from "./Modal";
 import DeleteContent from "./DeleteContent";
+import { useNotification } from "../hooks/useNotification";
 
 interface ContentCardProps {
   content: BrainContent;
@@ -16,6 +17,7 @@ interface ContentCardProps {
 const IconColor = "oklch(0.446 0.043 257.281)";
 
 const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
+  const { addNotification } = useNotification();
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
 
@@ -54,18 +56,34 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
     }
   };
 
+  const handleShare = async () => {
+    if (content.type === "youtube") {
+      const ytUrl = getYTVideoUrl(content.link);
+      const isCopied = await copyToClipboard(ytUrl);
+      if (isCopied)
+        addNotification("Link copied to clipboard", 2000, 300, "neutral");
+    }
+  };
+
   return (
     <div className="bg-whites rounded-lg p-4 mb-4 border border-slate-200">
-      <div className="flex justify-between items-center mb-4 gap-3">
+      <div className="flex justify-between items-center mb-5 gap-3 pb-1 border-b border-b-slate-200">
         <div className="flex items-center gap-2">
-          <span>{renderIcon()}</span>
-          <h3 className="text-xl font-semibold">{content.title}</h3>
+          <span></span>
+          {renderIcon()}
+          <h3 className="text-2xl font-semibold_">{content.title}</h3>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="cursor-pointer">
+        <div className="flex items-center gap-1">
+          <div
+            className="p-2 rounded-full cursor-pointer hover:bg-slate-100"
+            onClick={handleShare}
+          >
             <ShareIcon size="md" color={IconColor} />
           </div>
-          <div className="cursor-pointer" onClick={() => setShowModal(true)}>
+          <div
+            className="p-2 rounded-full cursor-pointer hover:bg-slate-100"
+            onClick={() => setShowModal(true)}
+          >
             <DeleteIcon width={20} height={20} color={IconColor} />
           </div>
         </div>

@@ -6,7 +6,7 @@ import useAxios from "./useAxios";
 interface FetchParams {
   url: string;
   method?: "GET" | "POST" | "PUT" | "DELETE"; // Add other methods if needed
-  body: Record<string, unknown> | FormData;
+  body?: Record<string, unknown> | FormData;
   headers?: Record<string, string>;
 }
 
@@ -23,7 +23,7 @@ function useFetch<T>({
   headers,
 }: FetchParams): FetchResult<T> {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const axiosInstance = useAxios();
 

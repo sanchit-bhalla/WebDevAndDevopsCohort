@@ -12,6 +12,21 @@ const generateUniqueHash = function (userId: string) {
   return hash.digest("hex");
 };
 
+export const brainStatus = asyncHandler(async (req, res, next) => {
+  const existingLink = await Link.findOne({ userId: req.user._id });
+  if (existingLink) {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, { isPublished: true }, "Link Already published")
+      );
+  } else {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { isPublished: false }, "Link not published"));
+  }
+});
+
 export const shareBrain = asyncHandler(async (req, res, next) => {
   const { share } = req.body;
   if (share) {

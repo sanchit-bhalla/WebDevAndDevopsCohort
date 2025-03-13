@@ -28,9 +28,7 @@ export const BrainProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    console.log("Inside BrainContext's useEffect");
     const fetchBrainContents = async () => {
-      console.log("Inside fetchBrainContents");
       try {
         setLoading(true);
         setError(null);

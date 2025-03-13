@@ -54,7 +54,7 @@ const useAxios = () => {
         const originalRequest = err.config;
 
         if (
-          err.response.status === 401 &&
+          err.response?.status === 401 &&
           err.response?.data?.message === "Invalid Access Token" &&
           !originalRequest._retry
         ) {

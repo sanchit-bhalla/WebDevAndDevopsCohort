@@ -5,8 +5,10 @@ import { extractEmbeddId } from "../utils/utilities";
 import useAxios from "../hooks/useAxios";
 import useBrain from "../hooks/useBrain";
 import { BACKEND_HOST } from "../constants";
+import { useNotification } from "../hooks/useNotification";
 
 const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
+  const { addNotification } = useNotification();
   const axios = useAxios();
   const { refetchBrain } = useBrain();
   const [formData, setFormData] = useState({
@@ -47,11 +49,14 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         withCredentials: true,
       });
 
+      addNotification("Content Added successfully.", 2000, 300, "success");
+
       refetchBrain();
 
       closeModal();
     } catch (err) {
       console.log(err);
+      addNotification("Content Not Added.", 2000, 300, "fail");
       setErrMsg("Some error occured while adding new content!");
     }
   };

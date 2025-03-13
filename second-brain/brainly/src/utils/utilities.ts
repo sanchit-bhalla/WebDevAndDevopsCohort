@@ -19,3 +19,22 @@ export const extractEmbeddId = (url: string) => {
 export const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString("en-GB");
 };
+
+export const getYTVideoUrl = (embeddUrl: string) => {
+  if (embeddUrl.startsWith("https://www.youtube.com/embed")) {
+    const embedId = embeddUrl.split("embed/")?.[1];
+    return `https://youtu.be/${embedId}`;
+  }
+  return null;
+};
+
+export const copyToClipboard = async (link: string | null) => {
+  if (!link) return false;
+  try {
+    await navigator.clipboard.writeText(link);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};

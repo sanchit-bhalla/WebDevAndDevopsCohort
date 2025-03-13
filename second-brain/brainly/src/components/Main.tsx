@@ -16,11 +16,11 @@ function Main() {
     <main className="bg-white rounded-l-lg p-4">
       {loading ? (
         <div className="h-8 w-40 bg-slate-200 animate-pulse mb-4"></div>
-      ) : (
+      ) : username ? (
         <h2 className="text-2xl text-gradient font-semibold mb-4">
           {`${username}'s Brain`}
         </h2>
-      )}
+      ) : null}
       {loading && (
         <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
           {Array.from({ length: 8 }).map((_, ind) => (
