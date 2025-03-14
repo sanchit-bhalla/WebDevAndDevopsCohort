@@ -97,7 +97,6 @@ export const shareBrain = asyncHandler(async (req, res, next) => {
 
 export const brainContent = asyncHandler(async (req, res, next) => {
   const hash = req.params.shareLink;
-
   const link = await Link.findOne({
     hash,
   });
@@ -105,7 +104,7 @@ export const brainContent = asyncHandler(async (req, res, next) => {
 
   // If link exists, get userId from it and return the brain of that user
   const contents = await Content.find({
-    userId: link.userId,
+    user: link.userId,
   });
 
   return res.status(200).json(new ApiResponse(200, contents));
