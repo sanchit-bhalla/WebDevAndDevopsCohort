@@ -27,6 +27,42 @@ export const brainStatus = asyncHandler(async (req, res, next) => {
   }
 });
 
+// verify if the hash belongs to logged in user or not
+export const verifyHash = asyncHandler(async (req, res, next) => {
+  const { hash } = req.body;
+
+  if (!hash)
+    return res.status(400).json(new ApiResponse(400, null, "Invalid hash"));
+
+  // check if any Link present
+  const link = await Link.findOne({
+    userId: req.user?._id,
+    hash,
+  });
+
+  if (link) {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { verified: true },
+          "Hash belongs to the LoggedIn user"
+        )
+      );
+  } else {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { verified: false },
+          "Hash doesn't belongs to the LoggedIn user"
+        )
+      );
+  }
+});
+
 export const shareBrain = asyncHandler(async (req, res, next) => {
   const { share } = req.body;
   if (share) {
