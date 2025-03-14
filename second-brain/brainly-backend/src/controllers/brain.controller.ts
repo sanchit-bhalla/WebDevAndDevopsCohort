@@ -5,6 +5,8 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { HASH_SECRET } from "../config";
 import { ApiError } from "../utils/ApiError";
 import { Content } from "../models/content.model";
+import { DecodedTokenJwt } from "../types/DecodedTokenJwt";
+import { contentTypes } from "../utils/utilities";
 
 const generateUniqueHash = function (userId: string) {
   const hash = crypto.createHmac("sha256", HASH_SECRET as string);
@@ -97,15 +99,22 @@ export const shareBrain = asyncHandler(async (req, res, next) => {
 
 export const brainContent = asyncHandler(async (req, res, next) => {
   const hash = req.params.shareLink;
+  const { q } = req.query;
+  if (q && typeof q !== "string")
+    throw new ApiError(400, "Invalid query parameters");
+
   const link = await Link.findOne({
     hash,
   });
   if (!link) throw new ApiError(404, "URL not exist");
 
+  const type = (q === "tweets" ? "tweet" : q) || "";
+
+  const query = contentTypes.includes(type)
+    ? { user: req.user?._id, type }
+    : { user: req.user?._id };
   // If link exists, get userId from it and return the brain of that user
-  const contents = await Content.find({
-    user: link.userId,
-  });
+  const contents = await Content.find(query);
 
   return res.status(200).json(new ApiResponse(200, contents));
 });

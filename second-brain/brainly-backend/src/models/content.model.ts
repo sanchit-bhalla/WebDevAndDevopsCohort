@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
-
-const contentTypes = ["image", "video", "article", "audio", "youtube", "tweet"];
+import { contentTypes } from "../utils/utilities";
 
 const contentSchema = new Schema(
   {

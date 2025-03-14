@@ -3,9 +3,20 @@ import { Content } from "../models/content.model";
 import { ApiResponse } from "../utils/ApiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError";
+import { contentTypes } from "../utils/utilities";
 
 export const getAllContents = asyncHandler(async (req, res, next) => {
-  const contents = await Content.find({ user: req.user?._id })
+  const { q } = req.query;
+  if (q && typeof q !== "string")
+    throw new ApiError(400, "Invalid query parameters");
+
+  const type = (q === "tweets" ? "tweet" : q) || "";
+
+  const query = contentTypes.includes(type)
+    ? { user: req.user?._id, type }
+    : { user: req.user?._id };
+
+  const contents = await Content.find(query)
     .sort({ createdAt: -1 })
     // .populate({
     //   path: "tags",
