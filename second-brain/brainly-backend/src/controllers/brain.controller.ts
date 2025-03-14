@@ -34,13 +34,16 @@ export const verifyHash = asyncHandler(async (req, res, next) => {
   if (!hash)
     return res.status(400).json(new ApiResponse(400, null, "Invalid hash"));
 
-  // check if any Link present
+  // check if any Link present with this hash
   const link = await Link.findOne({
-    userId: req.user?._id,
     hash,
   });
 
-  if (link) {
+  if (!link)
+    return res.status(400).json(new ApiResponse(400, null, "Invalid hash"));
+
+  // check if hash belongs to loggedIn user or not
+  if (link?.userId?.toString() === req.user?._id?.toString()) {
     return res
       .status(200)
       .json(
