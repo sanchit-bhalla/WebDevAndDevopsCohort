@@ -15,6 +15,7 @@ import Modal from "./Modal";
 import DeleteContent from "./DeleteContent";
 import { useNotification } from "../hooks/useNotification";
 import { Tweet } from "react-tweet";
+import { useLocation } from "react-router-dom";
 
 interface ContentCardProps {
   content: BrainContent;
@@ -25,6 +26,7 @@ const IconColor = "oklch(0.446 0.043 257.281)";
 const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
   const { addNotification } = useNotification();
   const [showModal, setShowModal] = useState(false);
+  const { pathname } = useLocation();
   const closeModal = () => setShowModal(false);
 
   const creationDate = formatDate(content.createdAt);
@@ -90,12 +92,14 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
           >
             <ShareIcon size="md" color={IconColor} />
           </div>
-          <div
-            className="p-2 rounded-full cursor-pointer hover:bg-slate-100"
-            onClick={() => setShowModal(true)}
-          >
-            <DeleteIcon width={20} height={20} color={IconColor} />
-          </div>
+          {!pathname.includes("/brain/") && (
+            <div
+              className="p-2 rounded-full cursor-pointer hover:bg-slate-100"
+              onClick={() => setShowModal(true)}
+            >
+              <DeleteIcon width={20} height={20} color={IconColor} />
+            </div>
+          )}
         </div>
       </div>
       {renderContent()}
