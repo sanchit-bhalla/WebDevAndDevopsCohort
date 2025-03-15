@@ -32,6 +32,13 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         return;
       }
       embeddUrl = `https://www.youtube.com/embed/${embeddId}`;
+    } else if (type === "tweet") {
+      if (link?.startsWith("https://x.com/")) embeddUrl = link;
+      else {
+        setFormData((prev) => ({ ...prev, link: "" }));
+        setErrMsg("Please provide correct twitter post url");
+        return;
+      }
     }
 
     try {

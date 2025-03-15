@@ -23,3 +23,7 @@ export interface NotificationProps {
   animationDelay: number;
   variant?: "success" | "fail" | "neutral";
 }
+
+interface HeaderProps {
+  loggedInUserHeader?: boolean;
+}

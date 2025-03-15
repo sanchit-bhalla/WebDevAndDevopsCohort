@@ -7,15 +7,17 @@ import { useAuth } from "../hooks/useAuth";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import { BrainProvider } from "../context/BrainContext";
 import { NotificationProvider } from "../context/NotificationContext";
+import PublicBrain from "./PublicBrain";
+import NotFound from "./NotFound";
 
 function Navigation() {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) return <ProgressBar />;
   return (
-    <BrainProvider>
-      <NotificationProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+      <BrainProvider>
+        <NotificationProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route
@@ -37,11 +39,12 @@ function Navigation() {
                 }
               />
             </Route>
-            <Route path="*" element={<Navigate replace to="/" />} />
+            <Route path="/brain/:hash" element={<PublicBrain />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-      </NotificationProvider>
-    </BrainProvider>
+        </NotificationProvider>
+      </BrainProvider>
+    </BrowserRouter>
   );
 }
 

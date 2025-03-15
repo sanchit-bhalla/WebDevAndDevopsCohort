@@ -1,41 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShareBrain from "./ShareBrain";
 import Button from "./Button";
 import { PlusIcon } from "../icons/PlusIcon";
-import { useAuth } from "../hooks/useAuth";
 import useFetch from "../hooks/useFetch";
 import Modal from "./Modal";
 import AddContent from "./AddContent";
 import UserIcon from "../icons/UserIcon";
+import UserDetails from "./UserDetails";
+import { HeaderProps } from "../../types/types";
 
-function HeaderActions() {
+interface Status {
+  data: {
+    isPublished: boolean;
+  };
+  message: string;
+  statusCode: number;
+}
+
+function HeaderActions({ loggedInUserHeader }: HeaderProps) {
   const [showUserDetails, setShowUserDetails] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
-  const { user, logout } = useAuth();
-  const { loading, error, data } = useFetch<{ isPublished: boolean }>({
+  const [published, setPublished] = useState(false);
+
+  const { loading, error, data } = useFetch<Status>({
     url: "api/v1/brain/status",
   });
+  const isPublished = data?.data?.isPublished;
 
   const closeModal = () => setShowModal(false);
 
   const toggleUserDetails = () => {
     setShowUserDetails((prevState) => !prevState);
   };
+
+  // For the first time / Intially when user opens the homepage
+  useEffect(() => {
+    if (typeof isPublished === "boolean") setPublished(isPublished);
+  }, [isPublished]);
+
   return (
     <>
       <div className="flex flex-wrap items-center gap-4">
-        {loading ? (
-          <div className="h-10 w-40 bg-slate-200 animate-pulse"></div>
-        ) : !error ? (
-          <ShareBrain />
-        ) : null}
-        <Button
-          title="Add Content"
-          size="md"
-          variant="primary"
-          startIcon={<PlusIcon size="md" />}
-          onClick={() => setShowModal(true)}
-        />
+        {loggedInUserHeader && (
+          <>
+            {loading ? (
+              <div className="h-10 w-40 bg-slate-200 animate-pulse"></div>
+            ) : !error ? (
+              <ShareBrain published={published} setPublished={setPublished} />
+            ) : null}
+            <Button
+              title="Add Content"
+              size="md"
+              variant="primary"
+              startIcon={<PlusIcon size="md" />}
+              onClick={() => setShowModal(true)}
+            />
+          </>
+        )}
 
         <button
           onClick={toggleUserDetails}
@@ -45,19 +66,7 @@ function HeaderActions() {
         </button>
       </div>
       {showUserDetails && (
-        <div className="absolute  right-0 top-14 bg-white px-4 py-2 rounded-md min-w-[150px]">
-          <div className=" py-2 border-b border-b-slate-200">
-            Welcome {user?.username || "Guest"} !
-          </div>
-          {data?.isPublished && (
-            <div className="py-2 cursor-pointer border-b border-b-slate-200">
-              Unpublish Brain
-            </div>
-          )}
-          <div className="py-2 text-purple-600 cursor-pointer" onClick={logout}>
-            Logout
-          </div>
-        </div>
+        <UserDetails published={published} setPublished={setPublished} />
       )}
 
       <Modal isOpen={showModal} onClose={closeModal}>

@@ -23,7 +23,7 @@ const Layout = () => {
     //     <p>Some main content here...</p>
     //   </main>
     // </div>
-    <div className="min-h-screen bg-slate-100 grid grid-rows-[auto_1fr] grid-cols-[auto_1fr]">
+    <div className="min-h-screen bg-slate-100 grid grid-rows-[auto_1fr] grid-cols-[auto_1fr] bg-img">
       <Header />
 
       <Outlet />

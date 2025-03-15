@@ -3,10 +3,12 @@ import useBrain from "../hooks/useBrain";
 import EmptyFilesIcon from "../icons/EmptyFilesIcon";
 import ExclamationIcon from "../icons/ExclamationIcon";
 import ContentCard from "./ContentCard";
+import { useSearchParams } from "react-router-dom";
 
 function Main() {
   const { loading, error, brain, refetchBrain } = useBrain();
   const username = brain?.[0]?.user?.username;
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     refetchBrain();
@@ -18,7 +20,7 @@ function Main() {
         <div className="h-8 w-40 bg-slate-200 animate-pulse mb-4"></div>
       ) : username ? (
         <h2 className="text-2xl text-gradient font-semibold mb-4">
-          {`${username}'s Brain`}
+          {`${username}'s ${searchParams.get("q") || "Brain"}`}
         </h2>
       ) : null}
       {loading && (
@@ -46,22 +48,17 @@ function Main() {
         </div>
       )}
       {!loading && !error && (
-        <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(350px,1fr))]">
+        // <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] grid-rows-[masonry]">
+        //   {brain.map((content) => (
+        //     <ContentCard key={content._id} content={content} />
+        //   ))}
+        // </div>
+        <div className="columns-1 sm:columns-2 lg:columns-3  gap-4 overflow-x-hidden">
           {brain.map((content) => (
-            <ContentCard key={content._id} content={content} />
+            <ContentCard content={content} key={content._id} />
           ))}
         </div>
       )}
-      {/* <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/wLGrhL8V038"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-      ></iframe> */}
     </main>
   );
 }

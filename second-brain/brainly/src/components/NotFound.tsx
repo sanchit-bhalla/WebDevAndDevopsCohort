@@ -3,7 +3,7 @@ import Logo from "./Logo";
 
 function NotFound() {
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="min-h-screen bg-slate-100 bg-img">
       <div className="p-4">
         <Logo />
       </div>

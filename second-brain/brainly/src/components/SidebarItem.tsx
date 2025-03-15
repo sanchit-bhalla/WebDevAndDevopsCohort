@@ -6,7 +6,7 @@ interface SidebarItemProps {
   icon: (props: IconProps) => JSX.Element;
   title: string;
   isActive: boolean;
-  onClick: React.Dispatch<React.SetStateAction<number>>;
+  onClick: (id: number, title: string) => void;
 }
 
 function SidebarItem(props: SidebarItemProps) {
@@ -21,7 +21,7 @@ function SidebarItem(props: SidebarItemProps) {
       className={`flex items-center px-4 py-2 gap-2 ${hoverStyles} ${
         props.isActive && activeStyles
       }`}
-      onClick={() => props.onClick(props.id)}
+      onClick={() => props.onClick(props.id, props.title)}
     >
       <Icon width={20} height={20} color={iconColor} />
       <p className="">{props.title}</p>

@@ -38,3 +38,10 @@ export const copyToClipboard = async (link: string | null) => {
     return false;
   }
 };
+
+export const extractTwitterPostId = (url: string | null) => {
+  if (!url) return null;
+
+  const splitArr = url.split("/");
+  return splitArr[splitArr.length - 1];
+};

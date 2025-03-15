@@ -6,6 +6,13 @@
   --color-purple-600: #5046e4;
 }
 
+.bg-img {
+  background-image: url("images/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right;
+}
+
 .text-gradient {
   background-image: linear-gradient(to right, #3e38a7, #0061c4, #0082d2);
   -webkit-background-clip: text;

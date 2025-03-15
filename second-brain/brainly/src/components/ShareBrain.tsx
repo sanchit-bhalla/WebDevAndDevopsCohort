@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShareIcon } from "../icons/ShareIcon";
 import Button from "./Button";
 import useAxios from "../hooks/useAxios";
@@ -6,7 +6,12 @@ import { copyToClipboard } from "../utils/utilities";
 import { useNotification } from "../hooks/useNotification";
 import { BACKEND_HOST } from "../constants";
 
-function ShareBrain() {
+interface ShareBrainProps {
+  published: boolean;
+  setPublished: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ShareBrain: React.FC<ShareBrainProps> = ({ published, setPublished }) => {
   const [loading, setLoading] = useState(false);
   const [link, setLink] = useState<string | null>(null);
   const axios = useAxios();
@@ -31,9 +36,10 @@ function ShareBrain() {
         withCredentials: true, // Ensure credentials are sent with the request
       });
 
-      const newLink = `http://localhost:5173/user/${response?.data?.data?.hash}`;
+      const newLink = `http://localhost:5173/brain/${response?.data?.data?.hash}`;
       setLink(newLink);
       copyToClipboard(newLink);
+      setPublished(true);
       addNotification("Link Copied to clipboad", 2000, 300, "success");
     } catch (err) {
       console.log(err);
@@ -42,6 +48,10 @@ function ShareBrain() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!published) setLink("");
+  }, [published]);
 
   return (
     <Button
@@ -53,6 +63,6 @@ function ShareBrain() {
       onClick={getSharableLink}
     />
   );
-}
+};
 
 export default ShareBrain;

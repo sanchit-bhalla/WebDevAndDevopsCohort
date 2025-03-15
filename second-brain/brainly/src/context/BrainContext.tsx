@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { BACKEND_HOST } from "../constants";
 import { BrainContent } from "../../types/types";
+import { useLocation } from "react-router-dom";
 
 interface BrainContextType {
   loading: boolean;
@@ -23,6 +24,10 @@ export const BrainProvider: React.FC<{ children: ReactNode }> = ({
   const [error, setError] = useState<string | null>(null);
   const [brain, setBrain] = useState<BrainContent[]>([]);
 
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const queryParam = searchParams.get("q");
+
   const refetchBrain = () => {
     setContentCounter((prev) => prev + 1);
   };
@@ -34,7 +39,9 @@ export const BrainProvider: React.FC<{ children: ReactNode }> = ({
         setError(null);
 
         const response = await axios({
-          url: `${BACKEND_HOST}/api/v1/content`,
+          url: pathname.includes("/brain/")
+            ? `${BACKEND_HOST}/api/v1${pathname}?q=${queryParam}`
+            : `${BACKEND_HOST}/api/v1/content?q=${queryParam}`,
           method: "GET",
 
           withCredentials: true,
@@ -50,7 +57,7 @@ export const BrainProvider: React.FC<{ children: ReactNode }> = ({
     };
 
     fetchBrainContents();
-  }, [contentCounter]);
+  }, [contentCounter, pathname, queryParam]);
 
   return (
     <BrainContext.Provider value={{ loading, error, brain, refetchBrain }}>

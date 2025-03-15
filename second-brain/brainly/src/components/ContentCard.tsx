@@ -5,10 +5,16 @@ import YoutubeIcon from "../icons/YoutubeIcon";
 import TwitterIcon from "../icons/TwitterIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import DeleteIcon from "../icons/DeleteIcon";
-import { copyToClipboard, formatDate, getYTVideoUrl } from "../utils/utilities";
+import {
+  copyToClipboard,
+  extractTwitterPostId,
+  formatDate,
+  getYTVideoUrl,
+} from "../utils/utilities";
 import Modal from "./Modal";
 import DeleteContent from "./DeleteContent";
 import { useNotification } from "../hooks/useNotification";
+import { Tweet } from "react-tweet";
 
 interface ContentCardProps {
   content: BrainContent;
@@ -46,28 +52,32 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
         ></iframe>
       );
     } else if (content.type === "tweet") {
-      return (
-        <blockquote className="twitter-tweet">
-          <a href={content.link}></a>
-        </blockquote>
-      );
+      const postId = extractTwitterPostId(content.link);
+      if (postId) return <Tweet id={postId} />;
+      else
+        return (
+          <div className="h-32 bg-slate-100 flex justify-center items-center">
+            <p className="opacity-50">Could not load post</p>
+          </div>
+        );
     } else {
       return null;
     }
   };
 
   const handleShare = async () => {
+    let link: string | null = content.link;
     if (content.type === "youtube") {
-      const ytUrl = getYTVideoUrl(content.link);
-      const isCopied = await copyToClipboard(ytUrl);
-      if (isCopied)
-        addNotification("Link copied to clipboard", 2000, 300, "neutral");
+      link = getYTVideoUrl(content.link);
     }
+    const isCopied = await copyToClipboard(link);
+    if (isCopied)
+      addNotification("Link copied to clipboard", 2000, 300, "neutral");
   };
 
   return (
-    <div className="bg-whites rounded-lg p-4 mb-4 border border-slate-200">
-      <div className="flex justify-between items-center mb-5 gap-3 pb-1 border-b border-b-slate-200">
+    <div className="bg-whites rounded-lg p-4 mb-4 border border-slate-200 break-inside-avoid max-h-fit_">
+      <div className="flex justify-between items-center mb-5 gap-3 pb-1 border-b border-b-slate-100">
         <div className="flex items-center gap-2">
           <span></span>
           {renderIcon()}
