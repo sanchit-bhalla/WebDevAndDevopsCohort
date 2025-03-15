@@ -114,7 +114,10 @@ export const brainContent = asyncHandler(async (req, res, next) => {
     ? { user: link.userId, type }
     : { user: link.userId };
   // If link exists, get userId from it and return the brain of that user
-  const contents = await Content.find(query);
+  const contents = await Content.find(query).populate({
+    path: "user",
+    select: "username",
+  });
 
   return res.status(200).json(new ApiResponse(200, contents));
 });
