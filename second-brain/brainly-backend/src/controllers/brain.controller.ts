@@ -111,8 +111,8 @@ export const brainContent = asyncHandler(async (req, res, next) => {
   const type = (q === "tweets" ? "tweet" : q) || "";
 
   const query = contentTypes.includes(type)
-    ? { user: req.user?._id, type }
-    : { user: req.user?._id };
+    ? { user: link.userId, type }
+    : { user: link.userId };
   // If link exists, get userId from it and return the brain of that user
   const contents = await Content.find(query);
 
