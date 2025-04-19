@@ -2,7 +2,16 @@ import "dotenv/config";
 import { Client } from "pg";
 
 async function createUsersTable() {
-  const client = new Client({ connectionString: process.env.CONNECTION_URL });
+  // const client = new Client({ connectionString: process.env.CONNECTION_URL });
+  const client = new Client({
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    port: Number(process.env.PORT),
+    ssl: true,
+  });
+
   try {
     await client.connect();
     const res = await client.query(`
