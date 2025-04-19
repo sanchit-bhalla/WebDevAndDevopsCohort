@@ -20,3 +20,4 @@
 - [Websockets](https://petal-estimate-4e9.notion.site/WebSockets-1477dfd10735802982becc925074b5f0)
 - [SQL Databases](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
 - [Prisma](https://projects.100xdevs.com/tracks/gZf9uBBNSbBR7UCqyyqT/prisma-1)
+- [NextJS](https://projects.100xdevs.com/tracks/nextjs-1/next-1)
