@@ -25,3 +25,4 @@
 - [NextJs Part3](https://petal-estimate-4e9.notion.site/NextJS-Part-3-1637dfd107358090800ff3aaed7a5b3c)
 - [Next Auth](https://projects.100xdevs.com/tracks/Next-Auth/La3EksBcKVqExEMwNAxa)
 - [Monorepos and Turborepos](https://petal-estimate-4e9.notion.site/Monorepos-b40e9c44a2ee4fe3badc3883841fc2c0)
+- [Docker](https://projects.100xdevs.com/tracks/docker-2/docker-2-1)
