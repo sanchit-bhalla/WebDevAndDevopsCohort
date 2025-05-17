@@ -78,7 +78,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
   };
 
   return (
-    <div className="bg-whites rounded-lg p-4 mb-4 border border-slate-200 break-inside-avoid max-h-fit_">
+    <div className="bg-whites rounded-lg px-4 py-6 mb-6 border border-slate-200 break-inside-avoid max-h-fit_">
       <div className="flex justify-between items-center mb-5 gap-3 pb-1 border-b border-b-slate-100">
         <div className="flex items-center gap-2">
           <span></span>

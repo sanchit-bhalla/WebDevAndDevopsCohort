@@ -15,7 +15,7 @@ function Main() {
   }, []);
 
   return (
-    <main className="bg-white rounded-l-lg p-4">
+    <main className="bg-white rounded-l-lg p-6">
       {loading ? (
         <div className="h-8 w-40 bg-slate-200 animate-pulse mb-4"></div>
       ) : username ? (
@@ -53,7 +53,7 @@ function Main() {
         //     <ContentCard key={content._id} content={content} />
         //   ))}
         // </div>
-        <div className="columns-1 sm:columns-2 lg:columns-3  gap-4 overflow-x-hidden">
+        <div className="columns-1 sm:columns-2 lg:columns-3  gap-6 overflow-x-hidden">
           {brain.map((content) => (
             <ContentCard content={content} key={content._id} />
           ))}
