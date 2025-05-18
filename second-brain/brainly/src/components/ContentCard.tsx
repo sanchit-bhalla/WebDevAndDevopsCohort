@@ -15,6 +15,8 @@ import Modal from "./Modal";
 import DeleteContent from "./DeleteContent";
 import { useNotification } from "../hooks/useNotification";
 import { Tweet } from "react-tweet";
+import PdfIcon from "../icons/PdfIcon";
+import TextImageIcon from "../icons/TextImageIcon";
 import { useLocation } from "react-router-dom";
 
 interface ContentCardProps {
@@ -31,6 +33,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
 
   const creationDate = formatDate(content.createdAt);
   const renderIcon = () => {
+    return null; // as of now
     if (content.type === "youtube")
       return <YoutubeIcon width={30} height={30} color={IconColor} />;
     else if (content.type === "tweet")
@@ -62,6 +65,18 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
             <p className="opacity-50">Could not load post</p>
           </div>
         );
+    } else if (content.type === "pdf") {
+      return (
+        <div className="h-32 bg-slate-100 flex justify-center items-center">
+          <PdfIcon width={80} height={80} />
+        </div>
+      );
+    } else if (content.type === "text") {
+      return (
+        <div className="w-full p-2 bg-slate-100 flex justify-center items-center">
+          <TextImageIcon width={150} height={150} />
+        </div>
+      );
     } else {
       return null;
     }
@@ -78,7 +93,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
   };
 
   return (
-    <div className="bg-whites rounded-lg px-4 py-6 mb-6 border border-slate-200 break-inside-avoid max-h-fit_">
+    <div className="bg-whites rounded-lg px-3 py-4 mb-6 border border-slate-200 break-inside-avoid max-h-fit_">
       <div className="flex justify-between items-center mb-5 gap-3 pb-1 border-b border-b-slate-100">
         <div className="flex items-center gap-2">
           <span></span>

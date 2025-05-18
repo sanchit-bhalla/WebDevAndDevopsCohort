@@ -5,4 +5,6 @@ export const contentTypes = [
   "audio",
   "youtube",
   "tweet",
+  "pdf",
+  "text",
 ];

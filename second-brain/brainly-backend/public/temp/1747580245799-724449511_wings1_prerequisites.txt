@@ -1,0 +1,53 @@
+Dear Wings1 Aspirants,
+
+Hope you are all geared up and preparing well for the upcoming cycle of assessments in May 2025.
+
+Please note the below cut off dates for Wings1 May 2025 Assessment.
+iEvolve learning Cut-off: 11th April 2025
+Registration Cut-off: 11th April 2025
+Unit Elective - External Certification: 15th June 2025 (Must reflect in system as acquired by 15th June 2025 )
+Domain learning completion: 15th June 2025
+Register yourself in the May 2025 Registration survey: https://knome.ultimatix.net/app/private/blogposts/1074053?com=21194
+
+You will be eligible to appear for the proctored assessment upon completing the learning prerequisite in iEvolve before the cut-off date, provided you also have high work performance in the April 2025 appraisal cycle as stated below.
+Appraisal Band A/B
+Anniversary rating 4/5 for associates who are yet to receive performance band.
+For freshers who do not have Appraisal Band or Anniversary Rating, only the iEvolve learning completion will be considered for proctored assessment eligibility.
+Learning pre requisites-
+Please refer to the iEvolve curriculum ID (given below in the table) and complete the learning element of that track.
+All the tracks would be visible under Wings1 Certificate ID 15205/15206.
+If the status is in progress, you still have time, ensure that you complete the track prerequisites right away to be eligible for that track assessment.
+Almost all tracks involve both learning path and direct assessment path. If you feel that you are already proficient in a given track, then instead of going through the learning content you may directly take up the assessment tagged towards the end of the course to mark that track as successfully completed.
+
+
+Track	Description	Curriculum id
+T1	Core Tech_T1_Building modern web apps at scale	14517
+T2	Core Tech_T2_Working with Modern Data Repositories	14519
+T3	Core Tech_T3_Machine First and Intelligent Business Processes	14625
+T4	Core Tech_T4_Integrating Distributed Ecosystems Curriculum	15201
+T5	Core Tech_T5_Extreme Automation Leveraging the Best of Cloud	14734
+T7	Core Tech T7_Cybersecurity-Securing the enterprise and consumer (15205)	14624
+T9	Core Tech_T9_Digital Infrastructure (15206)	14834
+T12	Core Tech_Wings1T12TestAutomation_Curriculum	22941
+T13	Core Tech_Wings1T13 Data Engineering & Data Visualization_Curriculum	22931
+T14	Core Tech_T14_Mainframe Curriculum	22891
+T15	T15_Cloud Analytics and AI Curriculum	23058
+B1	Business Skills Track 1_Curriculum	19674
+B2	Business Skills Track 2_Curriculum	19673
+A1	Articulation	11933, 14805, 13350, 14835
+Process	Process	15603, 56978(IT)/60566(IT IS)
+
+The iEvolve learning completion will not reflect properly if you have not clicked the register button for that curriculum. If you have already started the learning, don’t worry, Please go ahead and register for the curriculum now. If you are yet to start the learning of the curriculum, Please ensure you click the register button before you start
+
+Please note that the assessment will be conducted in the Depute location with the details present in the system as on March 31, 2025. Please ensure that any change in your depute location is reflecting in the system before 31st March 2025.
+
+As you are aware, It is important that you complete your iEvolve learning and fill the registration survey based on the Core tech track recommendation by your BG/ IOU. To view the BG/ Unit specific tech track list, Please visit the course ID: 80840, under group 1 in Wings1 Certificate ID 15205/15206.
+
+Unit Elective External Certification
+If you are taking up Unit elective external certification, please ensure that you upload the acquired certificate relevant for your Unit in iEvolve with necessary approval prior to the cutoff date (31st May 2025).
+If there are any further queries on Unit Elective external certification, please get in touch with your Unit TD. They would have all the details pertaining to your Unit.
+
+All the best for your Wings1 assessments!!
+
+Regards,
+Team Elevate.
