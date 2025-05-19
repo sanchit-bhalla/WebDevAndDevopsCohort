@@ -5,13 +5,14 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError";
 import { contentTypes } from "../utils/utilities";
 import { upload } from "../middlewares/multer.middleware";
+import { fileUploadQueue } from "../queues/fileUploadQueue";
+import { UploadApiResponse } from "cloudinary";
 import {
   extractPublicIdFromLink,
   getThumbnailFromFile,
   removeFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary";
-import { UploadApiResponse } from "cloudinary";
 
 export const getAllContents = asyncHandler(async (req, res, next) => {
   const { q } = req.query;
@@ -83,6 +84,8 @@ export const addContent = asyncHandler(async (req, res, next) => {
     const localFilePath = req.file?.path;
     if (!localFilePath) throw new ApiError(400, "File is misssing");
 
+    // TODO : Remove /* */ After testing
+    /*
     const cloudinaryFile: UploadApiResponse | null = await uploadOnCloudinary(
       localFilePath
     );
@@ -95,6 +98,42 @@ export const addContent = asyncHandler(async (req, res, next) => {
     // const thumbnail = await getThumbnailFromFile(cloudinaryFile.public_id);
 
     parsedBody.link = cloudinaryFile.secure_url;
+    */
+
+    // TODO: Remove dummy-link after uncommenting above code
+    parsedBody.link = "dummy-link";
+
+    // Add file in queues so that worker can take it
+    // do necessary processing for RAG
+    await fileUploadQueue.add(
+      "file-ready",
+      JSON.stringify({
+        // filename: req.file?.originalname,
+        // destination: req.file?.destination,
+        path: req.file?.path,
+        mimetype: req.file?.mimetype,
+        title: parsedBody.title,
+        link: parsedBody.link,
+        userId: req.user._id.toString(),
+      })
+    );
+  }
+
+  if (parsedBody.type === "youtube") {
+    // Add youtube video URL in queue so that worker can take it
+    // do necessary processing for RAG
+    await fileUploadQueue.add(
+      "file-ready",
+      JSON.stringify({
+        // filename: "youtubeFile",
+        // destination: "youtube server",
+        path: parsedBody.link,
+        mimetype: "youtube",
+        title: parsedBody.title,
+        link: parsedBody.link,
+        userId: req.user._id.toString(),
+      })
+    );
   }
 
   await Content.create({

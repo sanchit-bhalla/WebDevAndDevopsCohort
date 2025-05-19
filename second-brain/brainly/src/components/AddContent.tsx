@@ -51,17 +51,6 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         }
         setFormData((prev) => ({ ...prev, file }));
         setErrMsg("");
-
-        // if (file) {
-        //   const formData = new FormData();
-        //   formData.append('pdf', file);
-
-        //   await fetch('http://localhost:8000/upload/pdf', {
-        //     method: 'POST',
-        //     body: formData,
-        //   });
-        //   console.log('File uploaded');
-        // }
       }
     });
     el.click();
