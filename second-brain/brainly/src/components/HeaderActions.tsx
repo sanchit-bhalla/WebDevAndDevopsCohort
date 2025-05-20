@@ -8,6 +8,8 @@ import AddContent from "./AddContent";
 import UserIcon from "../icons/UserIcon";
 import UserDetails from "./UserDetails";
 import { HeaderProps } from "../../types/types";
+import BrainIcon from "../icons/BrainIcon";
+import { useNavigate } from "react-router-dom";
 
 interface Status {
   data: {
@@ -21,6 +23,8 @@ function HeaderActions({ loggedInUserHeader }: HeaderProps) {
   const [showUserDetails, setShowUserDetails] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [published, setPublished] = useState(false);
+
+  const navigate = useNavigate();
 
   const { loading, error, data } = useFetch<Status>({
     url: "api/v1/brain/status",
@@ -43,6 +47,14 @@ function HeaderActions({ loggedInUserHeader }: HeaderProps) {
       <div className="flex flex-wrap items-center gap-4">
         {loggedInUserHeader && (
           <>
+            <Button
+              title="Query Brain"
+              size="md"
+              variant="gradient"
+              startIcon={<BrainIcon width={18} height={18} />}
+              onClick={() => navigate("/chat")}
+            />
+
             {loading ? (
               <div className="h-10 w-40 bg-slate-200 animate-pulse"></div>
             ) : !error ? (

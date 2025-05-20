@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
+import LoadingIcon from "../icons/LoadingIcon";
 
 interface ButtonProps {
   title: string;
   size: "lg" | "sm" | "md";
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  variant: "primary" | "secondary" | "danger" | "neutral";
+  variant: "primary" | "secondary" | "danger" | "neutral" | "gradient";
   loading?: boolean;
   disabled?: boolean;
   extraStyles?: string;
@@ -24,7 +25,24 @@ const variantStyles = {
   secondary: "bg-purple-300 text-purple-600",
   danger: "bg-red-500 text-white uppercase",
   neutral: "bg-slate-200 text-black",
+  // gradient: "bg-gradient-to-r from-[#8ec5fc] to-[#e0c3fc] text-slate-800",
+  gradient: "bg-white text-purple-600",
 };
+
+const ApplyGradient: React.FC<{
+  variant: string;
+  children: React.ReactNode;
+}> = ({ variant, children }) => {
+  if (variant === "gradient")
+    return (
+      <div className="relative group ">
+        <div className="absolute -inset-1 bg-gradient-to-r from-[#8ec5fc] to-[#e0c3fc] rounded-lg blur opacity-80 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+        {children}
+      </div>
+    );
+  else return children;
+};
+
 function Button(props: ButtonProps) {
   const StartIcon = props.startIcon;
   const EndIcon = props.endIcon;
@@ -32,44 +50,26 @@ function Button(props: ButtonProps) {
     props.loading || props.disabled
       ? "opacity-80"
       : "opacity-95 hover:opacity-100 cursor-pointer";
-  return (
-    <button
-      className={`flex justify-center items-center gap-2 ${loadingStyles} ${
-        sizeStyles[props.size]
-      } ${variantStyles[props.variant]} ${props.extraStyles} `}
-      disabled={props.disabled || props.loading}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (props.onClick) props.onClick();
-      }}
-    >
-      {props.loading && (
-        <svg
-          className="h-5 w-5 animate-spin text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      )}
 
-      {StartIcon ? StartIcon : null}
-      <div>{props.loading ? "Please wait..." : props.title}</div>
-      {EndIcon ? EndIcon : null}
-    </button>
+  return (
+    <ApplyGradient variant={props.variant}>
+      <button
+        className={`relative flex justify-center items-center gap-2 ${loadingStyles} ${
+          sizeStyles[props.size]
+        } ${variantStyles[props.variant]} ${props.extraStyles} `}
+        disabled={props.disabled || props.loading}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (props.onClick) props.onClick();
+        }}
+      >
+        {props.loading && <LoadingIcon />}
+
+        {StartIcon ? StartIcon : null}
+        <div>{props.loading ? "Please wait..." : props.title}</div>
+        {EndIcon ? EndIcon : null}
+      </button>
+    </ApplyGradient>
   );
 }
 

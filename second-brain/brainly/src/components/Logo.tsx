@@ -11,7 +11,7 @@ function Logo() {
       <BrainIcon width={40} height={40} />
 
       <h2 className="text-4xl text-gradient font-semibold font-sans tracking-tight -mt-1.5">
-        Brainly
+        iDE Brain
       </h2>
     </div>
   );

@@ -5,6 +5,7 @@ import { CORS_ORIGIN } from "./config";
 import { userRouter } from "./routes/user.routes";
 import { contentRouter } from "./routes/content.routes";
 import { brainRouter } from "./routes/brain.routes";
+import { chatRouter } from "./routes/chat.routes";
 
 export const app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/content", contentRouter);
 app.use("/api/v1/brain", brainRouter);
+app.use("/api/v1/chat", chatRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.headersSent) return next(err);

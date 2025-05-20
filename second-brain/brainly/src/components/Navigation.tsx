@@ -9,6 +9,7 @@ import { BrainProvider } from "../context/BrainContext";
 import { NotificationProvider } from "../context/NotificationContext";
 import PublicBrain from "./PublicBrain";
 import NotFound from "./NotFound";
+import ChatPage from "./ChatPage";
 
 function Navigation() {
   const { isAuthenticated, loading } = useAuth();
@@ -39,6 +40,16 @@ function Navigation() {
                 }
               />
             </Route>
+            <Route
+              path="chat"
+              element={
+                !isAuthenticated ? (
+                  <Navigate replace to="/login" />
+                ) : (
+                  <ChatPage />
+                )
+              }
+            />
             <Route path="/brain/:hash" element={<PublicBrain />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
