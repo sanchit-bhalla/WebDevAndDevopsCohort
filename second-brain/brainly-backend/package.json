@@ -38,6 +38,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "multer": "^1.4.5-lts.2",
+    "openai": "^4.103.0",
     "pdf-parse": "^1.1.1",
     "youtubei": "^1.6.7",
     "youtubei.js": "^13.4.0",

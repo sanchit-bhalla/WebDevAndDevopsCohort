@@ -85,7 +85,7 @@ export const addContent = asyncHandler(async (req, res, next) => {
     if (!localFilePath) throw new ApiError(400, "File is misssing");
 
     // TODO : Remove /* */ After testing
-    /*
+    // /*
     const cloudinaryFile: UploadApiResponse | null = await uploadOnCloudinary(
       localFilePath
     );
@@ -98,10 +98,10 @@ export const addContent = asyncHandler(async (req, res, next) => {
     // const thumbnail = await getThumbnailFromFile(cloudinaryFile.public_id);
 
     parsedBody.link = cloudinaryFile.secure_url;
-    */
+    // */
 
     // TODO: Remove dummy-link after uncommenting above code
-    parsedBody.link = "dummy-link";
+    // parsedBody.link = "dummy-link";
 
     // Add file in queues so that worker can take it
     // do necessary processing for RAG

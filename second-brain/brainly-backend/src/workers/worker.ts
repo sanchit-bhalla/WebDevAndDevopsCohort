@@ -5,15 +5,14 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-import { OpenAIEmbeddings } from "@langchain/openai";
 import { QdrantVectorStore } from "@langchain/qdrant";
-import { FILE_UPLOAD_QUEUE, VECTOR_STORE_COLLECTION_NAME } from "../constants";
 import {
-  OPENAI_API_KEY,
-  QDRANT_URL,
-  VALKEY_HOST,
-  VALKEY_PORT,
-} from "../config";
+  embeddings,
+  FILE_UPLOAD_QUEUE,
+  VECTOR_STORE_COLLECTION_NAME,
+} from "../constants";
+import { QDRANT_URL, VALKEY_HOST, VALKEY_PORT } from "../config";
+import { getVectorStore, initializeVectorStore } from "../vectorstore";
 
 interface JobData {
   // filename: string;
@@ -25,10 +24,15 @@ interface JobData {
   userId: string;
 }
 
-const embeddings = new OpenAIEmbeddings({
-  model: "text-embedding-3-small",
-  apiKey: OPENAI_API_KEY,
-});
+// Separately initialized vector store in worker bcz we run it independently
+(async () => {
+  try {
+    await initializeVectorStore();
+    console.log("✅ Vector store initialized in worker");
+  } catch (err) {
+    console.error("❌ Failed to initialize vector store in worker", err);
+  }
+})();
 
 const worker = new Worker(
   FILE_UPLOAD_QUEUE,
@@ -92,23 +96,17 @@ const worker = new Worker(
           },
         }));
 
-        const vectorStore = await QdrantVectorStore.fromDocuments(
-          enrichedDocs,
-          embeddings,
-          {
-            url: QDRANT_URL,
-            collectionName: VECTOR_STORE_COLLECTION_NAME,
-          }
-        );
-
-        // const vectorStore = await QdrantVectorStore.fromExistingCollection(
+        // const vectorStore = await QdrantVectorStore.fromDocuments(
+        //   enrichedDocs,
         //   embeddings,
         //   {
         //     url: QDRANT_URL,
         //     collectionName: VECTOR_STORE_COLLECTION_NAME,
         //   }
         // );
-        // await vectorStore.addDocuments(splitDocs);
+
+        const vectorStore = getVectorStore();
+        await vectorStore.addDocuments(enrichedDocs);
 
         console.log(`${data.title} added to vector store`);
       } catch (err) {

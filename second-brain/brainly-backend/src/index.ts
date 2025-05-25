@@ -3,6 +3,7 @@ import { Server } from "http";
 import { connectDB } from "./db";
 import { PORT } from "./config";
 import { app } from "./app";
+import { initializeVectorStore } from "./vectorstore";
 
 let server: Server;
 try {
@@ -13,9 +14,16 @@ try {
         throw err;
       });
 
-      server = app.listen(PORT || 8000, () => {
-        console.log(`App is listening on port ${PORT || 8000}`);
-      });
+      // Initialize vectore store instance
+      initializeVectorStore()
+        .then(() => {
+          server = app.listen(PORT || 8000, () => {
+            console.log(`App is listening on port ${PORT || 8000}`);
+          });
+        })
+        .catch((err) => {
+          console.log("VectorStore not CONNECTED!");
+        });
     })
     .catch((err) => {
       console.log(`SERVER DOWN !`, err);

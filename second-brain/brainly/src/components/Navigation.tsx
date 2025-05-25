@@ -7,6 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import { BrainProvider } from "../context/BrainContext";
 import { NotificationProvider } from "../context/NotificationContext";
+import { ChatProvider } from "../context/ChatContext";
 import PublicBrain from "./PublicBrain";
 import NotFound from "./NotFound";
 import ChatPage from "./ChatPage";
@@ -19,40 +20,46 @@ function Navigation() {
     <BrowserRouter>
       <BrainProvider>
         <NotificationProvider>
-          <Routes>
-            <Route path="/" element={<Layout />}>
+          <ChatProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route
+                  path="register"
+                  element={
+                    !isAuthenticated ? (
+                      <Register />
+                    ) : (
+                      <Navigate replace to="/" />
+                    )
+                  }
+                />
+                <Route
+                  path="login"
+                  element={
+                    !isAuthenticated ? <Login /> : <Navigate replace to="/" />
+                  }
+                />
+                <Route
+                  index
+                  element={
+                    isAuthenticated ? <Home /> : <Navigate replace to="login" />
+                  }
+                />
+              </Route>
               <Route
-                path="register"
+                path="chat"
                 element={
-                  !isAuthenticated ? <Register /> : <Navigate replace to="/" />
+                  !isAuthenticated ? (
+                    <Navigate replace to="/login" />
+                  ) : (
+                    <ChatPage />
+                  )
                 }
               />
-              <Route
-                path="login"
-                element={
-                  !isAuthenticated ? <Login /> : <Navigate replace to="/" />
-                }
-              />
-              <Route
-                index
-                element={
-                  isAuthenticated ? <Home /> : <Navigate replace to="login" />
-                }
-              />
-            </Route>
-            <Route
-              path="chat"
-              element={
-                !isAuthenticated ? (
-                  <Navigate replace to="/login" />
-                ) : (
-                  <ChatPage />
-                )
-              }
-            />
-            <Route path="/brain/:hash" element={<PublicBrain />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              <Route path="/brain/:hash" element={<PublicBrain />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ChatProvider>
         </NotificationProvider>
       </BrainProvider>
     </BrowserRouter>
