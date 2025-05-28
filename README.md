@@ -26,3 +26,4 @@
 - [Next Auth](https://projects.100xdevs.com/tracks/Next-Auth/La3EksBcKVqExEMwNAxa)
 - [Monorepos and Turborepos](https://petal-estimate-4e9.notion.site/Monorepos-b40e9c44a2ee4fe3badc3883841fc2c0)
 - [Docker](https://projects.100xdevs.com/tracks/docker-2/docker-2-1)
+- [VMs and Deploying a MERN app](https://petal-estimate-4e9.notion.site/VMs-and-Deploying-a-MERN-app-1867dfd10735809b8c3ad17e07e23ff2)
