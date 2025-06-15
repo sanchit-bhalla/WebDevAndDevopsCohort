@@ -14,16 +14,6 @@ import {
 import { QDRANT_URL, VALKEY_HOST, VALKEY_PORT } from "../config";
 import { getVectorStore, initializeVectorStore } from "../vectorstore";
 
-interface JobData {
-  // filename: string;
-  // destination: string;
-  path: string;
-  mimetype: "application/pdf" | "text/plain" | "youtube";
-  title: string;
-  link: string;
-  userId: string;
-}
-
 // Separately initialized vector store in worker bcz we run it independently
 (async () => {
   try {
