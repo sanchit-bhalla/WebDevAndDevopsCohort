@@ -42,7 +42,8 @@ function PublicBrain() {
           withCredentials: true, // Ensure credentials are sent with the request
         });
 
-        if (response?.data?.data?.verified) navigate("/", { replace: true });
+        if (response?.data?.data?.verified)
+          navigate("/brain", { replace: true });
         setLoading(false);
       } catch (err) {
         const error = err as CustomError;

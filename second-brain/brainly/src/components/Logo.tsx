@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BrainIcon from "../icons/BrainIcon";
+import { APP_NAME } from "../constants";
 
 function Logo() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function Logo() {
       <BrainIcon width={40} height={40} />
 
       <h2 className="text-4xl text-gradient font-semibold font-sans tracking-tight -mt-1.5">
-        iDE Brain
+        {APP_NAME}
       </h2>
     </div>
   );

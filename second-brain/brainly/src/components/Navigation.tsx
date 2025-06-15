@@ -11,6 +11,7 @@ import { ChatProvider } from "../context/ChatContext";
 import PublicBrain from "./PublicBrain";
 import NotFound from "./NotFound";
 import ChatPage from "./ChatPage";
+import LandingPage from "./LandingPage";
 
 function Navigation() {
   const { isAuthenticated, loading } = useAuth();
@@ -22,6 +23,7 @@ function Navigation() {
         <NotificationProvider>
           <ChatProvider>
             <Routes>
+              <Route path="/" element={<LandingPage />} />
               <Route path="/" element={<Layout />}>
                 <Route
                   path="register"
@@ -29,20 +31,28 @@ function Navigation() {
                     !isAuthenticated ? (
                       <Register />
                     ) : (
-                      <Navigate replace to="/" />
+                      <Navigate replace to="/brain" />
                     )
                   }
                 />
                 <Route
                   path="login"
                   element={
-                    !isAuthenticated ? <Login /> : <Navigate replace to="/" />
+                    !isAuthenticated ? (
+                      <Login />
+                    ) : (
+                      <Navigate replace to="/brain" />
+                    )
                   }
                 />
                 <Route
-                  index
+                  path="brain"
                   element={
-                    isAuthenticated ? <Home /> : <Navigate replace to="login" />
+                    isAuthenticated ? (
+                      <Home />
+                    ) : (
+                      <Navigate replace to="/login" />
+                    )
                   }
                 />
               </Route>
