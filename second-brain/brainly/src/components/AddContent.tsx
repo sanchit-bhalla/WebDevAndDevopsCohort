@@ -272,7 +272,8 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     type.trim().length === 0 || title.trim()?.length === 0;
 
   if (type === "pdf" || type === "text") {
-    if (!file) isAddButtonDisabled = true;
+    if (!file || progress < 100 || link?.trim()?.length === 0)
+      isAddButtonDisabled = true;
   } else if (link?.trim().length === 0) isAddButtonDisabled = true;
 
   return (
