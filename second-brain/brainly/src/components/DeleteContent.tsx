@@ -28,7 +28,7 @@ const DeleteContent: React.FC<DeleteContentProps> = ({
       setError("");
 
       await axios({
-        url: `${BACKEND_HOST}/api/v1/content/${content._id}`,
+        url: `${BACKEND_HOST}/api/v2/content/${content._id}`,
         method: "DELETE",
         withCredentials: true,
       });
