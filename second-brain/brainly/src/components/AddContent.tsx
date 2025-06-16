@@ -197,6 +197,7 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       //   withCredentials: true,
       // });
 
+      if (fileId) formData.append("fileId", fileId);
       await axios({
         url: `${BACKEND_HOST}/api/v2/content`,
         method: "POST",
