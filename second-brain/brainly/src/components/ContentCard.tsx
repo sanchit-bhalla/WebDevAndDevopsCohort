@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Image } from "@imagekit/react";
 import { BrainContent } from "../../types/types";
 import Button from "./Button";
 import YoutubeIcon from "../icons/YoutubeIcon";
@@ -16,9 +15,11 @@ import Modal from "./Modal";
 import DeleteContent from "./DeleteContent";
 import { useNotification } from "../hooks/useNotification";
 import { Tweet } from "react-tweet";
-import PdfIcon from "../icons/PdfIcon";
-import TextImageIcon from "../icons/TextImageIcon";
+// import PdfIcon from "../icons/PdfIcon";
+// import TextImageIcon from "../icons/TextImageIcon";
 import { useLocation } from "react-router-dom";
+import TextIcon2 from "../icons/TextIcon2";
+import PdfIcon2 from "../icons/PdfIcon2";
 
 interface ContentCardProps {
   content: BrainContent;
@@ -67,25 +68,19 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
           </div>
         );
     } else if (content.type === "pdf") {
-      // return (
-      //   <div className="h-32 bg-slate-100 flex justify-center items-center">
-      //     <PdfIcon width={80} height={80} />
-      //   </div>
-      // );
-
       return (
-        <Image
-          urlEndpoint="https://ik.imagekit.io/brainly"
-          src="https://ik.imagekit.io/brainly/SOLID_Principles_7VNFiCDHu.pdf"
-          width={500}
-          height={500}
-          alt={`Image for ${content.title}`}
-        />
+        <div className="w-full p-2 bg-slate-100 flex justify-center items-center">
+          {/* <PdfIcon width={80} height={80} /> */}
+          {/* <PdfIcon width={150} /> */}
+          <PdfIcon2 width={150} />
+        </div>
       );
     } else if (content.type === "text") {
       return (
         <div className="w-full p-2 bg-slate-100 flex justify-center items-center">
-          <TextImageIcon width={150} height={150} />
+          {/* <TextImageIcon width={150} height={150} /> */}
+          {/* <TextIcon2 width={150} /> */}
+          <TextIcon2 width={150} color="#0076cd" />
         </div>
       );
     } else {
