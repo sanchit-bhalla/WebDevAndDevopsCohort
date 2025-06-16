@@ -70,7 +70,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="flex-col items-center justify-center gap-8 h-screen bg-[#f8fafc] text-center px-6 md:flex md:flex-row-reverse md:items-center bg-img">
+    <section className="h-screen -mt-[60px] flex-col items-center justify-center gap-8 bg-[#f8fafc] text-center px-6 md:flex md:flex-row-reverse md:items-center bg-img">
       <div className="w-max-[80%] flex justify-center items-center p-6 bg-grad">
         <img src={brainImage} alt="Brain image" />
       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Image } from "@imagekit/react";
 import { BrainContent } from "../../types/types";
 import Button from "./Button";
 import YoutubeIcon from "../icons/YoutubeIcon";
@@ -66,10 +67,20 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
           </div>
         );
     } else if (content.type === "pdf") {
+      // return (
+      //   <div className="h-32 bg-slate-100 flex justify-center items-center">
+      //     <PdfIcon width={80} height={80} />
+      //   </div>
+      // );
+
       return (
-        <div className="h-32 bg-slate-100 flex justify-center items-center">
-          <PdfIcon width={80} height={80} />
-        </div>
+        <Image
+          urlEndpoint="https://ik.imagekit.io/brainly"
+          src="https://ik.imagekit.io/brainly/SOLID_Principles_7VNFiCDHu.pdf"
+          width={500}
+          height={500}
+          alt={`Image for ${content.title}`}
+        />
       );
     } else if (content.type === "text") {
       return (

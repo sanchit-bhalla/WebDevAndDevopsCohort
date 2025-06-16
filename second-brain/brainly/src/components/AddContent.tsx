@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  ImageKitAbortError,
+  ImageKitInvalidRequestError,
+  ImageKitServerError,
+  ImageKitUploadNetworkError,
+  upload,
+} from "@imagekit/react";
 import Input from "./Input";
 import Button from "./Button";
 import { extractEmbeddId } from "../utils/utilities";
@@ -29,6 +36,11 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
 
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [fileId, setFileId] = useState("");
+
+  // Create an AbortController instance to provide an option to cancel the upload if needed.
+  const abortController = new AbortController();
 
   const handleFileSelect = () => {
     const el = document.createElement("input");
@@ -56,8 +68,95 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     el.click();
   };
 
+  const handleUpload = async () => {
+    const file = formData.file;
+
+    if (!file) {
+      setErrMsg("File not selected!");
+      return;
+    }
+
+    // Retrieve authentication parameters for the upload.
+    let authParams, publicKey;
+    try {
+      const response = await axios({
+        url: `${BACKEND_HOST}/api/v1/imagekit/auth`,
+        method: "GET",
+        withCredentials: true, // Ensure credentials are sent with the request
+      });
+      authParams = response.data?.data?.authParams;
+      publicKey = response.data?.data?.publicKey;
+      // console.log(authParams, publicKey);
+    } catch (authError) {
+      console.error("Failed to authenticate for upload:", authError);
+      setErrMsg("Failed to authenticate for upload");
+      return;
+    }
+
+    const { signature, expire, token } = authParams;
+
+    // Call the ImageKit SDK upload function with the required parameters and callbacks.
+    try {
+      const uploadResponse = await upload({
+        // Authentication parameters
+        expire,
+        token,
+        signature,
+        publicKey,
+        file,
+        fileName: file.name, // Optionally set a custom file name
+        // Progress callback to update upload progress state
+        onProgress: (event) => {
+          setProgress((event.loaded / event.total) * 100);
+        },
+        // Abort signal to allow cancellation of the upload if needed.
+        abortSignal: abortController.signal,
+      });
+      // console.log("Upload response:", uploadResponse);
+
+      setFileId(uploadResponse?.fileId || "");
+      setFormData((prev) => ({ ...prev, link: uploadResponse?.url }));
+    } catch (error) {
+      // Handle specific error types provided by the ImageKit SDK.
+      if (error instanceof ImageKitAbortError) {
+        console.error("Upload aborted:", error.reason);
+      } else if (error instanceof ImageKitInvalidRequestError) {
+        console.error("Invalid request:", error.message);
+      } else if (error instanceof ImageKitUploadNetworkError) {
+        console.error("Network error:", error.message);
+      } else if (error instanceof ImageKitServerError) {
+        console.error("Server error:", error.message);
+      } else {
+        // Handle any other errors that may occur.
+        console.error("Upload error:", error);
+      }
+      setErrMsg("Some error occured while uploading file");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!fileId) return;
+
+    try {
+      await axios({
+        url: `${BACKEND_HOST}/api/v1/imagekit`,
+        method: "DELETE",
+        data: { fileId },
+        withCredentials: true, // Ensure credentials are sent with the request
+      });
+      // console.log(authParams, publicKey);
+    } catch (authError) {
+      console.error(
+        `Failed to delete the uploaded file with id: ${fileId} \n`,
+        authError
+      );
+    } finally {
+      setFileId("");
+    }
+  };
+
   const addContent = async () => {
-    const { title, link, type, file } = formData;
+    const { title, link, type } = formData;
     let embeddUrl;
     if (type === "youtube") {
       const embeddId = extractEmbeddId(link || "");
@@ -75,6 +174,8 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         setErrMsg("Please provide correct twitter post url");
         return;
       }
+    } else {
+      embeddUrl = link;
     }
     try {
       setLoading(true);
@@ -85,14 +186,21 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       formData.append("link", embeddUrl || "");
       formData.append("tags", JSON.stringify([]));
 
-      if (file) formData.append("uploaded_file", file);
+      // if (file) formData.append("uploaded_file", file);
+      // await axios({
+      //   url: `${BACKEND_HOST}/api/v1/content`,
+      //   method: "POST",
+      //   data: formData,
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      //   withCredentials: true,
+      // });
+
       await axios({
-        url: `${BACKEND_HOST}/api/v1/content`,
+        url: `${BACKEND_HOST}/api/v2/content`,
         method: "POST",
         data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         withCredentials: true,
       });
 
@@ -115,7 +223,9 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       type: "",
       file: null,
     });
+    // setFileId(""); // Don't set FileId = "" here else we can't be able to delete file from cloud
     setErrMsg("");
+    setProgress(0);
   };
 
   const handleChange = (
@@ -129,6 +239,8 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         link: "",
         file: null,
       });
+      setErrMsg("");
+      setProgress(0);
       return;
     }
 
@@ -138,6 +250,21 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    const deletePreviousAndUploadNewFile = async () => {
+      // File changed or removed. We first need to delete the previous uploaded file
+      if (fileId) await handleDelete();
+
+      const file = formData.file;
+      if (file) {
+        // console.log(file);
+        await handleUpload();
+      }
+    };
+
+    deletePreviousAndUploadNewFile();
+  }, [formData.file]);
 
   const { title, link, type, file } = formData;
   let isAddButtonDisabled =
@@ -198,9 +325,17 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
               <span className="my-2 text-lg text-slate-500">Upload File</span>
             </section>
             {file && (
-              <span className="text-sm text-purple-600 text-">
-                ✅ {file.name} <i>selected</i>
-              </span>
+              <div>
+                {progress != 100 ? (
+                  <span className="text-sm">
+                    ({progress} % completed) Uploading...
+                  </span>
+                ) : (
+                  <span className="text-sm text-purple-600">
+                    ✅ {file.name} <i>selected</i>
+                  </span>
+                )}
+              </div>
             )}
           </div>
         )}
