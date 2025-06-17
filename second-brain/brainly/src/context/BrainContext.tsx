@@ -32,6 +32,7 @@ export const BrainProvider: React.FC<{ children: ReactNode }> = ({
     setContentCounter((prev) => prev + 1);
   };
 
+  console.log({ pathname });
   useEffect(() => {
     const fetchBrainContents = async () => {
       try {
@@ -41,7 +42,7 @@ export const BrainProvider: React.FC<{ children: ReactNode }> = ({
         const response = await axios({
           url: pathname.includes("/brain/")
             ? `${BACKEND_HOST}/api/v1${pathname}?q=${queryParam}`
-            : `${BACKEND_HOST}/api/v1/content?q=${queryParam}`,
+            : `${BACKEND_HOST}/api/v2/content?q=${queryParam}`,
           method: "GET",
 
           withCredentials: true,
