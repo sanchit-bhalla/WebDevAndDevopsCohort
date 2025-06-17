@@ -72,7 +72,7 @@ const ChatContent: React.FC = () => {
           className={`max-w-[70%] w-fit p-4 rounded-2xl mb-4 ${
             msg.role === "user"
               ? "ml-auto bg-slate-50 shadow-sm"
-              : "mr-auto text-lg"
+              : "p-6 mr-auto text-xl text-black"
           }`}
         >
           {/* <h3 className="text-xl">{msg.role}</h3> */}

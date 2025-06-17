@@ -180,11 +180,11 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     try {
       setLoading(true);
 
-      const formData = new FormData();
-      formData.append("type", type);
-      formData.append("title", title);
-      formData.append("link", embeddUrl || "");
-      formData.append("tags", JSON.stringify([]));
+      // const formData = new FormData();
+      // formData.append("type", type);
+      // formData.append("title", title);
+      // formData.append("link", embeddUrl || "");
+      // formData.append("tags", JSON.stringify([]));
 
       // if (file) formData.append("uploaded_file", file);
       // await axios({
@@ -197,11 +197,16 @@ const AddContent: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       //   withCredentials: true,
       // });
 
-      if (fileId) formData.append("fileId", fileId);
       await axios({
         url: `${BACKEND_HOST}/api/v2/content`,
         method: "POST",
-        data: formData,
+        data: {
+          type,
+          title,
+          link: embeddUrl || "",
+          tags: JSON.stringify([]),
+          fileId: fileId || undefined,
+        },
         withCredentials: true,
       });
 
