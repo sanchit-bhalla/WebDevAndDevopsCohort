@@ -6,10 +6,6 @@ import { ApiResponse } from "../../utils/ApiResponse";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { Content } from "../../models/content.model";
 import { contentTypes, getMimeType } from "../../utils/utilities";
-import { customQueue } from "../../queues/CustomQueue";
-import { fileUploadQueue } from "../../queues/fileUploadQueue";
-import { imagekit } from "../../constants";
-import { title } from "process";
 
 const workerPath = path.resolve(__dirname, "../../workers/customQueueWorker");
 const worker = new Worker(workerPath);

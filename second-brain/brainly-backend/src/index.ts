@@ -33,14 +33,14 @@ try {
 }
 
 // Ensure clean exit
-process.on("SIGINT", () => {
-  console.log("Shutting down server...");
+// process.on("SIGINT", () => {
+//   console.log("Shutting down server...");
 
-  server?.close(() => {
-    console.log("Server closed.");
-    process.exit(0);
-  });
-});
+//   server?.close(() => {
+//     console.log("Server closed.");
+//     process.exit(0);
+//   });
+// });
 
 process.on("unhandledRejection", (err: any) => {
   console.log(err?.name, err?.message);
