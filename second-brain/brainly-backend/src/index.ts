@@ -32,6 +32,16 @@ try {
   console.log("DB not connected", err);
 }
 
+// Ensure clean exit
+process.on("SIGINT", () => {
+  console.log("Shutting down server...");
+
+  server?.close(() => {
+    console.log("Server closed.");
+    process.exit(0);
+  });
+});
+
 process.on("unhandledRejection", (err: any) => {
   console.log(err?.name, err?.message);
   console.log("Unhandled exception occured! Shutting down...");

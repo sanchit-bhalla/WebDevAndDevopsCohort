@@ -6,7 +6,8 @@
     "build": "tsc -b",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run start",
-    "dev:worker": "node dist/workers/worker.js"
+    "dev:bullmqworker": "node dist/workers/worker.js",
+    "dev:worker": "node dist/workers/customQueueWorker.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.8",
+    "@types/pdf-parse": "^1.1.5",
     "copyfiles": "^2.4.1",
     "typescript": "^5.7.3"
   },
@@ -27,6 +29,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
+    "axios": "^1.10.0",
     "bcrypt": "^5.1.1",
     "bullmq": "^5.52.2",
     "cloudinary": "^2.6.1",
@@ -35,6 +38,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "imagekit": "^6.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "multer": "^1.4.5-lts.2",

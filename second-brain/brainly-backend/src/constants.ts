@@ -1,10 +1,22 @@
+import ImageKit from "imagekit";
 import OpenAI from "openai";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import { OPENAI_API_KEY } from "./config";
+import {
+  IMAGEKIT_PRIVATE_KEY,
+  IMAGEKIT_PUBLIC_KEY,
+  IMAGEKIT_URL_ENDPOINT,
+  OPENAI_API_KEY,
+} from "./config";
 
 export const DB_NAME = "brainly";
 
 export const FILE_UPLOAD_QUEUE = "file-upload-queue";
+
+export const imagekit = new ImageKit({
+  urlEndpoint: IMAGEKIT_URL_ENDPOINT || "",
+  publicKey: IMAGEKIT_PUBLIC_KEY || "",
+  privateKey: IMAGEKIT_PRIVATE_KEY || "",
+});
 
 export const VECTOR_STORE_COLLECTION_NAME = "brainly_rag";
 

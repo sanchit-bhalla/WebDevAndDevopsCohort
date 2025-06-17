@@ -18,7 +18,7 @@ import { getVectorStore, initializeVectorStore } from "../vectorstore";
 (async () => {
   try {
     await initializeVectorStore();
-    console.log("✅ Vector store initialized in worker");
+    console.log("✅ Vector store initialized in bullmq worker");
   } catch (err) {
     console.error("❌ Failed to initialize vector store in worker", err);
   }
@@ -27,7 +27,7 @@ import { getVectorStore, initializeVectorStore } from "../vectorstore";
 const worker = new Worker(
   FILE_UPLOAD_QUEUE,
   async (job) => {
-    const data: JobData = JSON.parse(job.data);
+    const data = JSON.parse(job.data);
     // console.log(data);
 
     /*

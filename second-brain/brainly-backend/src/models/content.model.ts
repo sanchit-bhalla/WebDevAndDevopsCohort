@@ -16,6 +16,9 @@ const contentSchema = new Schema(
       type: String,
       required: true,
     },
+    fileId: {
+      type: String,
+    },
     tags: [
       {
         type: Schema.Types.ObjectId,

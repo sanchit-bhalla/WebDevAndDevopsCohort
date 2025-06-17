@@ -6,6 +6,8 @@ import { userRouter } from "./routes/user.routes";
 import { contentRouter } from "./routes/content.routes";
 import { brainRouter } from "./routes/brain.routes";
 import { chatRouter } from "./routes/chat.routes";
+import { imagekitRouter } from "./routes/imagekit.routes";
+import { contentRouterV2 } from "./routes/v2/content.routes";
 
 export const app = express();
 
@@ -25,6 +27,9 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/content", contentRouter);
 app.use("/api/v1/brain", brainRouter);
 app.use("/api/v1/chat", chatRouter);
+app.use("/api/v1/imagekit", imagekitRouter);
+
+app.use("/api/v2/content", contentRouterV2);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.headersSent) return next(err);
